@@ -1,0 +1,3 @@
+<div class="wrapper" id="c_{{componentKey}}" *ngIf="otpForm?.controls" [ngStyle]="config.containerStyles">
+  <input type="text" [ngStyle]="config.inputStyles" maxlength="1" class="otp-input" autocomplete="off" *ngFor="let item of otpForm?.controls | keys;let i=index" [formControl]="otpForm.controls[item]" id="otp_{{i}}_{{componentKey}}" (keyup)="onKeyUp($event,'otp_'+(i+1),'otp_'+(i-1))" >
+</div>

@@ -1,0 +1,9 @@
+<div class="o-c">
+    <div>
+        <div class="card">
+            <p class="a-o-i">Enter verification code</p>
+            <ng-otp-input (onInputChange)="onOtpChange($event)" [config]="{length:5,inputStyles:inputStyles}"></ng-otp-input>
+            <span *ngIf="otp" class="o-t-p">Entered otp :-{{otp}}</span>
+        </div>
+    </div>
+</div>
