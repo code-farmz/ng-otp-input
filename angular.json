@@ -133,6 +133,41 @@
           }
         }
       }
+    },
+    "ng-otp-input-lib": {
+      "root": "projects/ng-otp-input",
+      "sourceRoot": "projects/ng-otp-input/src",
+      "projectType": "library",
+      "prefix": "lib",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-ng-packagr:build",
+          "options": {
+            "tsConfig": "projects/ng-otp-input/tsconfig.lib.json",
+            "project": "projects/ng-otp-input/ng-package.json"
+          }
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "projects/ng-otp-input/src/test.ts",
+            "tsConfig": "projects/ng-otp-input/tsconfig.spec.json",
+            "karmaConfig": "projects/ng-otp-input/karma.conf.js"
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "projects/ng-otp-input/tsconfig.lib.json",
+              "projects/ng-otp-input/tsconfig.spec.json"
+            ],
+            "exclude": [
+              "**/node_modules/**"
+            ]
+          }
+        }
+      }
     }
   },
   "defaultProject": "ng-otp-input"

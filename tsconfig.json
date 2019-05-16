@@ -16,6 +16,14 @@
     "lib": [
       "es2018",
       "dom"
-    ]
+    ],
+    "paths": {
+      "l-ng-otp-input": [
+        "dist/l-ng-otp-input"
+      ],
+      "l-ng-otp-input/*": [
+        "dist/l-ng-otp-input/*"
+      ]
+    }
   }
 }

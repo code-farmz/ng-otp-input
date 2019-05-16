@@ -2,7 +2,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 
 import { AppComponent } from './app.component';
-import { NgOtpInputModule } from './modules/ng-otp-input/ng-otp-input.module';
+import { NgOtpInputModule } from 'ng-otp-input';
 
 @NgModule({
   declarations: [

@@ -1,1 +1,0 @@
-export * from './src/app/modules/ng-otp-input/ng-otp-input.module';
