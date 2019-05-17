@@ -5,7 +5,7 @@ A fully customizable, one-time password input component for the web built with A
 
 ![GIPHY](https://media.giphy.com/media/TdpKuX7H1KBvvR2Hpu/giphy.gif)
 
-[Live Demo](https://github-j96wn9-t2qonx.stackblitz.io) | [Stackbliz Editor](https://stackblitz.com/github/code-farmz/ng-otp-input)
+<a href="https://github-j96wn9-t2qonx.stackblitz.io" target="_blank">Live Demo</a> | <a href="https://stackblitz.com/github/code-farmz/ng-otp-input" target="_blank">Stackbliz Editor</a>
 # Installation
 ```
 npm install --save ng-otp-input
