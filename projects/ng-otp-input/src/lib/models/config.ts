@@ -3,4 +3,5 @@ export class Config{
     containerStyles?:{[key:string]:any};
     allowKeyCodes?:string[];
     length:number;
+    allowNumbersOnly?:boolean;
 }

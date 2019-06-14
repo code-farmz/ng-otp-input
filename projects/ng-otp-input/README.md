@@ -95,6 +95,7 @@ Add component to your page:
 <td>By default numbers alphabets and _ - are allowed.Y
 ou can define other key codes if needed.</td>
 </tr>
+
 <tr><td colspan="5"></td></tr>
 </table>
 

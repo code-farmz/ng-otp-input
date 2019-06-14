@@ -51,7 +51,7 @@ export class NgOtpInputComponent implements OnInit {
     return key == targetCode ? true : false;
   }
 
-  onKeyUp($event, nextInputId,prevInputId) {
+  onKeyUp($event, nextInputId, prevInputId) {
     nextInputId = this.appendKey(nextInputId);
     prevInputId = this.appendKey(prevInputId);
     if (this.ifRightArrow($event)) {
@@ -60,13 +60,16 @@ export class NgOtpInputComponent implements OnInit {
     }
     if (this.ifLeftArrow($event)) {
       this.setSelected(prevInputId);
-        return;
+      return;
     }
     let isBackspace = this.ifBackspaceOrDelete($event);
     if (isBackspace && !$event.target.value) {
       this.setSelected(prevInputId);
-    this.rebuildValue();
-    return;
+      this.rebuildValue();
+      return;
+    }
+    if (!$event.target.value) {
+      return;
     }
     if (this.ifValidEntry($event)) {
       this.focusTo(nextInputId);
@@ -78,7 +81,7 @@ export class NgOtpInputComponent implements OnInit {
     return `${id}_${this.componentKey}`;
   }
 
-  
+
 
   setSelected(eleId) {
     this.focusTo(eleId);
