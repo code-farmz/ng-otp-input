@@ -3,6 +3,7 @@ import { NgOtpInputComponent } from './components/ng-otp-input/ng-otp-input.comp
 import { KeysPipe } from './pipes/keys.pipe';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
+import { NumberOnlyDirective } from './directives/number-only.directive';
 
 @NgModule({
   imports: [
@@ -10,7 +11,7 @@ import { CommonModule } from '@angular/common';
     FormsModule,
     ReactiveFormsModule
   ],
-  declarations: [NgOtpInputComponent,KeysPipe],
+  declarations: [NgOtpInputComponent,KeysPipe,NumberOnlyDirective],
   exports: [NgOtpInputComponent],
   providers:[KeysPipe]
 })
