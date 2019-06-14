@@ -6,12 +6,25 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
-  otp:string;
-  inputStyles={
-    'width':'50px',
-    'height':'50px'
+  otp: string;
+  showOtpComponent: boolean = true;
+ 
+  config = {
+    allowNumbersOnly: false,
+    length:5,
+    inputStyles: {
+      'width': '50px',
+      'height': '50px'
+    }
   }
-  onOtpChange(otp){
-    this.otp=otp;
+  onOtpChange(otp) {
+    this.otp = otp;
+  }
+
+  onConfigChange() {
+    this.showOtpComponent = false;
+    setTimeout(() => {
+      this.showOtpComponent = true;
+    }, 0);
   }
 }

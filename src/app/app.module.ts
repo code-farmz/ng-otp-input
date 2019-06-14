@@ -3,6 +3,7 @@ import { NgModule } from '@angular/core';
 
 import { AppComponent } from './app.component';
 import { NgOtpInputModule } from 'ng-otp-input';
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -10,6 +11,7 @@ import { NgOtpInputModule } from 'ng-otp-input';
   ],
   imports: [
     BrowserModule,
+    FormsModule,
     NgOtpInputModule
   ],
   providers: [],
