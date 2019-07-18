@@ -43,7 +43,7 @@ export class NgOtpInputComponent implements OnInit {
   }
 
   ifBackspaceOrDelete(event) {
-    return this.ifKeyCode(event, 8) || this.ifKeyCode(event, 46);
+    return event.key === "Backspace" || event.key === "Delete" || this.ifKeyCode(event, 8) || this.ifKeyCode(event, 46);
   }
 
   ifKeyCode(event, targetCode) {
@@ -51,9 +51,9 @@ export class NgOtpInputComponent implements OnInit {
     return key == targetCode ? true : false;
   }
 
-  onKeyUp($event, nextInputId, prevInputId) {
-    nextInputId = this.appendKey(nextInputId);
-    prevInputId = this.appendKey(prevInputId);
+  onKeyUp($event, inputIdx) {
+    let nextInputId = this.appendKey(`otp_${inputIdx + 1}`);
+    let prevInputId = this.appendKey(`otp_${inputIdx - 1}`);
     if (this.ifRightArrow($event)) {
       this.setSelected(nextInputId);
       return;

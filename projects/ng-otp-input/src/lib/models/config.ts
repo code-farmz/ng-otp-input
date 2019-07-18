@@ -4,4 +4,6 @@ export class Config{
     allowKeyCodes?:string[];
     length:number;
     allowNumbersOnly?:boolean;
+    inputClass?:string;
+    containerClass?:string;
 }
