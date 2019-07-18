@@ -12,10 +12,10 @@ export class AppComponent {
   config = {
     allowNumbersOnly: false,
     length:5,
-    // inputStyles: {
-    //   'width': '35px',
-    //   'height': '35px'
-    // }
+    inputStyles: {
+      'width': '50px',
+      'height': '50px'
+    }
   }
   onOtpChange(otp) {
     this.otp = otp;
