@@ -96,7 +96,7 @@ export class NgOtpInputComponent implements OnInit {
   ifValidEntry(event) {
     var inp = String.fromCharCode(event.keyCode);
     var isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
-    return isMobile || /[a-zA-Z0-9-_]/.test(inp) || (this.config.allowKeyCodes && this.config.allowKeyCodes.includes(event.keyCode))
+    return isMobile || /[a-zA-Z0-9-_]/.test(inp) || (this.config.allowKeyCodes && this.config.allowKeyCodes.includes(event.keyCode)) || (event.keyCode >= 96 && event.keyCode <= 105);
   }
 
 
