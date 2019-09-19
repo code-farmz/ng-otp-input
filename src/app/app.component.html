@@ -8,6 +8,10 @@
         <span class="s-t">Allow number only</span>
     </li>
     <li>
+      <input type="checkbox" name="pass-input" id="pass-input" [(ngModel)]="config.isPasswordInput" (change)="onConfigChange()">
+      <span class="s-t">Password input</span>
+  </li>
+    <li>
         <span class="s-t">Number of inputs</span>
         <input type="number" name="input-length" class="f-c" [(ngModel)]="config.length" min="1" max="10" (ngModelChange)="onConfigChange()">
     </li>

@@ -7,22 +7,24 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   otp: string;
-  showOtpComponent: boolean = true;
- 
+  showOtpComponent = true;
+
   config = {
     allowNumbersOnly: false,
-    length:5,
+    length: 5,
+    isPasswordInput: false,
     inputStyles: {
       'width': '50px',
       'height': '50px'
     }
-  }
+  };
   onOtpChange(otp) {
     this.otp = otp;
   }
 
   onConfigChange() {
     this.showOtpComponent = false;
+    this.otp = null;
     setTimeout(() => {
       this.showOtpComponent = true;
     }, 0);

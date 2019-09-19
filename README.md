@@ -1,5 +1,5 @@
 # ng-otp-input
-[![Npm Version](https://img.shields.io/badge/npm-v1.4.2-blue.svg)](https://www.npmjs.com/package/ng-otp-input) 
+[![Npm Version](https://img.shields.io/badge/npm-v1.5.0-blue.svg)](https://www.npmjs.com/package/ng-otp-input) 
 
 A fully customizable, one-time password input component for the web built with Angular.
 
@@ -115,6 +115,13 @@ Add component to your page:
 <td>--</td>
 <td>By default numbers alphabets and _ - are allowed.Y
 ou can define other key codes if needed.</td>
+</tr>
+<tr>
+<td>isPasswordInput</td>
+<td>bool</td>
+<td>false</td>
+<td>--</td>
+<td>set true for password type input</td>
 </tr>
 <tr><td colspan="5"></td></tr>
 </table>
