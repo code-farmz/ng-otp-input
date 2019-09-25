@@ -13,6 +13,7 @@ export class AppComponent {
     allowNumbersOnly: false,
     length: 5,
     isPasswordInput: false,
+    disableAutoFocus: false,
     inputStyles: {
       'width': '50px',
       'height': '50px'

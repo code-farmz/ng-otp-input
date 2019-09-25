@@ -123,6 +123,13 @@ ou can define other key codes if needed.</td>
 <td>--</td>
 <td>set true for password type input</td>
 </tr>
+<tr>
+<td>disableAutoFocus</td>
+<td>bool</td>
+<td>false</td>
+<td>--</td>
+<td>First input will be auto focused on component load enable this flag to prevent this behaviour</td>
+</tr>
 <tr><td colspan="5"></td></tr>
 </table>
 
