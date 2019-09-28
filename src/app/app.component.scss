@@ -3,6 +3,12 @@
     font-weight: 600;
     margin-top: 0;
 }
+.a-o-i-t{
+    @extend .a-o-i;
+    font-size: 25px;
+    padding: 15px;
+    border-bottom: 1px solid lightgray;
+}
 
 .o-c{
     text-align: center;
@@ -11,6 +17,23 @@
     height: 100vh;
     justify-content: center;
     align-items: center;
+}
+
+.s-t{
+    font-size: 16px;
+    font-weight: 600;
+}
+
+.list{
+    list-style: none;
+    margin-top: 0;
+    padding: 0;
+    li{
+        padding-bottom: 10px;
+        border-bottom: 1px solid lightgray;
+        padding-top: 10px;
+        padding-left: 40px;
+    }
 }
 
 .card{
@@ -25,4 +48,33 @@
     display: block;
     margin-top: 10px;
     font-size: 19px;
+}
+
+.content{
+    display: inline-block;
+    width: calc(100% - 250px);
+    vertical-align: top;
+}
+
+.sidebar{
+    width: 250px;
+    height: 100vh;
+    display: inline-block;
+    box-shadow: 0 1px 3px 0 #d4d4d5, 0 0 0 1px #d4d4d5;
+}
+.f-c{
+    width: 150px;
+    border-radius: 4px;
+    border: 1px solid lightgrey;
+    margin: 0.5rem 0;
+    height: 1.5rem;
+    padding: 0 0.5rem;
+}
+@media screen and (max-width:767px){
+    .sidebar{
+        display: none;
+    }
+    .content{
+        width: 100%;
+    }
 }

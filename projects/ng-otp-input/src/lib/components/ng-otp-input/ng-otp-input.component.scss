@@ -20,3 +20,12 @@
         height: 40px;
     }
 }
+
+
+@media screen and (max-width:420px) {
+    .otp-input {
+        width: 30px;
+        font-size: 18px;
+        height: 30px;
+    }
+}

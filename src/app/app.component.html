@@ -1,9 +1,38 @@
-<div class="o-c">
+<div class="sidebar">
+  <div class="a-o-i-t">
+    Angular Otp Input
+  </div>
+  <ul class="list">
+    <li>
+      <input type="checkbox" name="number-only" id="number-only" [(ngModel)]="config.allowNumbersOnly"
+        (change)="onConfigChange()">
+      <span class="s-t">Allow number only</span>
+    </li>
+    <li>
+      <input type="checkbox" name="pass-input" id="pass-input" [(ngModel)]="config.isPasswordInput"
+        (change)="onConfigChange()">
+      <span class="s-t">Password input</span>
+    </li>
+    <li>
+      <input type="checkbox" name="disable-focus" id="disable-focus" [(ngModel)]="config.disableAutoFocus"
+        (change)="onConfigChange()">
+      <span class="s-t">Disable auto focus</span>
+    </li>
+    <li>
+      <span class="s-t">Number of inputs</span>
+      <input type="number" name="input-length" class="f-c" [(ngModel)]="config.length" min="1" max="10"
+        (ngModelChange)="onConfigChange()">
+    </li>
+  </ul>
+</div>
+<div class="content">
+  <div class="o-c">
     <div>
-        <div class="card">
-            <p class="a-o-i">Enter verification code</p>
-            <ng-otp-input (onInputChange)="onOtpChange($event)" [config]="{length:5,inputStyles:inputStyles}"></ng-otp-input>
-            <span *ngIf="otp" class="o-t-p">Entered otp :-{{otp}}</span>
-        </div>
+      <div class="card">
+        <p class="a-o-i">Enter verification code</p>
+        <ng-otp-input (onInputChange)="onOtpChange($event)" *ngIf="showOtpComponent" [config]="config"></ng-otp-input>
+        <span *ngIf="otp" class="o-t-p">Entered otp :-{{otp}}</span>
+      </div>
     </div>
+  </div>
 </div>
