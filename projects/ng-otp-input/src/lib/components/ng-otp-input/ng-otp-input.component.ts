@@ -1,19 +1,31 @@
-import { Component, OnInit, Input, Output, EventEmitter, AfterViewInit } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  Input,
+  Output,
+  EventEmitter,
+  AfterViewInit
+} from '@angular/core';
 import { FormGroup, FormControl } from '@angular/forms';
 import { KeysPipe } from '../../pipes/keys.pipe';
 import { Config } from '../../models/config';
 @Component({
+  // tslint:disable-next-line: component-selector
   selector: 'ng-otp-input',
   templateUrl: './ng-otp-input.component.html',
   styleUrls: ['./ng-otp-input.component.scss']
 })
 export class NgOtpInputComponent implements OnInit, AfterViewInit {
   @Input() config: Config = { length: 4 };
+  // tslint:disable-next-line: no-output-on-prefix
   @Output() onInputChange = new EventEmitter<string>();
   otpForm: FormGroup;
   inputControls: FormControl[] = new Array(this.config.length);
-  componentKey = Math.random().toString(36).substring(2) + (new Date()).getTime().toString(36);
-  constructor(private keysPipe: KeysPipe) { }
+  componentKey =
+    Math.random()
+      .toString(36)
+      .substring(2) + new Date().getTime().toString(36);
+  constructor(private keysPipe: KeysPipe) {}
 
   ngOnInit() {
     this.otpForm = new FormGroup({});
@@ -22,11 +34,13 @@ export class NgOtpInputComponent implements OnInit, AfterViewInit {
     }
   }
   ngAfterViewInit(): void {
-    const containerItem = document.getElementById(`c_${this.componentKey}`);
-    if (containerItem) {
-      const ele: any = containerItem.getElementsByClassName('.otp-input')[0];
-      if (ele && ele.focus) {
-        ele.focus();
+    if (!this.config.disableAutoFocus) {
+      const containerItem = document.getElementById(`c_${this.componentKey}`);
+      if (containerItem) {
+        const ele: any = containerItem.getElementsByClassName('otp-input')[0];
+        if (ele && ele.focus) {
+          ele.focus();
+        }
       }
     }
   }
@@ -43,11 +57,17 @@ export class NgOtpInputComponent implements OnInit, AfterViewInit {
   }
 
   ifBackspaceOrDelete(event) {
-    return event.key === 'Backspace' || event.key === 'Delete' || this.ifKeyCode(event, 8) || this.ifKeyCode(event, 46);
+    return (
+      event.key === 'Backspace' ||
+      event.key === 'Delete' ||
+      this.ifKeyCode(event, 8) ||
+      this.ifKeyCode(event, 46)
+    );
   }
 
   ifKeyCode(event, targetCode) {
     const key = event.keyCode || event.charCode;
+    // tslint:disable-next-line: triple-equals
     return key == targetCode ? true : false;
   }
 
@@ -81,8 +101,6 @@ export class NgOtpInputComponent implements OnInit, AfterViewInit {
     return `${id}_${this.componentKey}`;
   }
 
-
-
   setSelected(eleId) {
     this.focusTo(eleId);
     const ele: any = document.getElementById(eleId);
@@ -96,12 +114,14 @@ export class NgOtpInputComponent implements OnInit, AfterViewInit {
   ifValidEntry(event) {
     const inp = String.fromCharCode(event.keyCode);
     const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
-    return isMobile || /[a-zA-Z0-9-_]/.test(inp) || (this.config.allowKeyCodes &&
-       this.config.allowKeyCodes.includes(event.keyCode)) || (event.keyCode >= 96 && event.keyCode <= 105);
+    return (
+      isMobile ||
+      /[a-zA-Z0-9-_]/.test(inp) ||
+      (this.config.allowKeyCodes &&
+        this.config.allowKeyCodes.includes(event.keyCode)) ||
+      (event.keyCode >= 96 && event.keyCode <= 105)
+    );
   }
-
-
-
 
   focusTo(eleId) {
     const ele: any = document.getElementById(eleId);
@@ -122,5 +142,4 @@ export class NgOtpInputComponent implements OnInit, AfterViewInit {
     });
     this.onInputChange.emit(val);
   }
-
 }

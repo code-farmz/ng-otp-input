@@ -7,4 +7,5 @@ export class Config {
     inputClass?: string;
     containerClass?: string;
     isPasswordInput?: boolean;
+    disableAutoFocus?: boolean;
 }
