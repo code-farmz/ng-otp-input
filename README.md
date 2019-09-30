@@ -42,7 +42,7 @@ Add component to your page:
 <th>Description</th>
 </tr>
 <tr>
-<td>Config</td>
+<td>config</td>
 <td>object</td>
 <td>true</td>
 <td>{length:4}</td>
@@ -88,7 +88,7 @@ Add component to your page:
 <td>Class applied to each input.</td>
 </tr>
 <tr>
-<td>ContainerClass</td>
+<td>containerClass</td>
 <td>string</td>
 <td>false</td>
 <td>--</td>
