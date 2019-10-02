@@ -17,7 +17,8 @@ export class AppComponent {
     inputStyles: {
       'width': '50px',
       'height': '50px'
-    }
+    },
+    placeholder: "-"
   };
   onOtpChange(otp) {
     this.otp = otp;
