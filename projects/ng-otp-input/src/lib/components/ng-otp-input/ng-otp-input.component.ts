@@ -140,14 +140,16 @@ export class NgOtpInputComponent implements OnInit, AfterViewInit {
   }
 
   // method to set component value
-  setValue(value: string) {
+  setValue(value: any) {
+    if (this.config.allowNumbersOnly && isNaN(value)) {
+        return;
+    }
     this.otpForm.reset();
      if (!value) {
        this.rebuildValue();
        return;
      }
      value = value.toString().replace(/\s/g, ''); // remove whitespace
-
      Array.from(value).forEach((c, idx) => {
           if (this.otpForm.get(this.getControlName(idx))) {
             this.otpForm.get(this.getControlName(idx)).setValue(c);
