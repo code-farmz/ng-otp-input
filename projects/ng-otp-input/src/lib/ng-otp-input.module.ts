@@ -11,8 +11,8 @@ import { NumberOnlyDirective } from './directives/number-only.directive';
     FormsModule,
     ReactiveFormsModule
   ],
-  declarations: [NgOtpInputComponent,KeysPipe,NumberOnlyDirective],
+  declarations: [NgOtpInputComponent, KeysPipe, NumberOnlyDirective],
   exports: [NgOtpInputComponent],
-  providers:[KeysPipe]
+  providers: [KeysPipe]
 })
 export class NgOtpInputModule { }

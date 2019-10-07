@@ -52,6 +52,7 @@ export class NgOtpInputComponent implements OnInit, AfterViewInit {
     return this.ifKeyCode(event, 37);
   }
 
+
   ifRightArrow(event) {
     return this.ifKeyCode(event, 39);
   }
@@ -69,6 +70,11 @@ export class NgOtpInputComponent implements OnInit, AfterViewInit {
     const key = event.keyCode || event.charCode;
     // tslint:disable-next-line: triple-equals
     return key == targetCode ? true : false;
+  }
+  onKeyDown($event) {
+    if ($event.which === 32) {// prevent space
+    return false;
+    }
   }
 
   onKeyUp($event, inputIdx) {
@@ -132,6 +138,24 @@ export class NgOtpInputComponent implements OnInit, AfterViewInit {
       }, 0);
     }
   }
+
+  // method to set component value
+  setValue(value: string) {
+    this.otpForm.reset();
+     if (!value) {
+       this.rebuildValue();
+       return;
+     }
+     value = value.toString().replace(/\s/g, ''); // remove whitespace
+
+     Array.from(value).forEach((c, idx) => {
+          if (this.otpForm.get(this.getControlName(idx))) {
+            this.otpForm.get(this.getControlName(idx)).setValue(c);
+          }
+     });
+     this.rebuildValue();
+  }
+
 
   rebuildValue() {
     let val = '';
