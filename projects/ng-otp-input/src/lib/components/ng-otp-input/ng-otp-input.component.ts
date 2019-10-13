@@ -72,7 +72,8 @@ export class NgOtpInputComponent implements OnInit, AfterViewInit {
     return key == targetCode ? true : false;
   }
   onKeyDown($event) {
-    if ($event.which === 32) {// prevent space
+    var isSpace=this.ifKeyCode($event,32)
+    if (isSpace) {// prevent space
     return false;
     }
   }
