@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 
 @Component({
   selector: 'app-root',
@@ -8,7 +8,7 @@ import { Component } from '@angular/core';
 export class AppComponent {
   otp: string;
   showOtpComponent = true;
-
+  @ViewChild('ngOtpInput') ngOtpInput: any;
   config = {
     allowNumbersOnly: false,
     length: 5,
@@ -21,6 +21,10 @@ export class AppComponent {
   };
   onOtpChange(otp) {
     this.otp = otp;
+  }
+
+  setVal(val) {
+    this.ngOtpInput.setValue(val);
   }
 
   onConfigChange() {

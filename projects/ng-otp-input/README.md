@@ -45,7 +45,7 @@ Add component to your page:
 <td>object</td>
 <td>true</td>
 <td>{length:4}</td>
-<td>various configuration options to customize the component</td>
+<td>Various configuration options to customize the component</td>
 </tr>
 <tr>
 <td>onOtpChange</td>
@@ -53,6 +53,13 @@ Add component to your page:
 <td>true</td>
 <td>--</td>
 <td>Function that will receive the otp</td>
+</tr>
+<tr>
+<td>setValue</td>
+<td>function</td>
+<td>false</td>
+<td>--</td>
+<td>Call setValue method of component to update component value. See example below</td>
 </tr>
 </table>
 
@@ -129,12 +136,28 @@ ou can define other key codes if needed.</td>
 <td>--</td>
 <td>First input will be auto focused on component load enable this flag to prevent this behaviour</td>
 </tr>
-<tr><td colspan="5"></td></tr>
 </table>
 
+**Updating component value using setValue method**
+
+Component value can be updated using `setValue` method of the component example:-
+
+
+```<ng-otp-input #ngOtpInput ></ng-otp-input> //add hash to ng-otp-input component```
+
+then in your component reference using [@ViewChild](https://angular.io/api/core/ViewChild) and call `setValue` method when you want to set the value of component like
+
+```
+@ViewChild('ngOtpInput') ngOtpInputRef:any;//Get reference using ViewChild and the specified hash
+yourMethod(){
+  this.ngOtpInputRef.setValue(yourValue);//yourvalue can be any string or number eg. 1234 or '1234'
+}
+
+```
 ## Contributing
 
-Feel free to open [issues](https://github.com/code-farmz/ng-otp-input/issues/new) and [pull requests](https://github.com/code-farmz/ng-otp-input/compare)! 
+Add a star to show your support and feel free to open [issues](https://github.com/code-farmz/ng-otp-input/issues/new) and [pull requests](https://github.com/code-farmz/ng-otp-input/compare)! 
+
 
 ## License
 
