@@ -99,7 +99,7 @@ export class NgOtpInputComponent implements OnInit, AfterViewInit {
       return;
     }
     if (this.ifValidEntry($event)) {
-      this.focusTo(nextInputId);
+      this.setSelected(nextInputId);
     }
     this.rebuildValue();
   }
@@ -134,9 +134,9 @@ export class NgOtpInputComponent implements OnInit, AfterViewInit {
     const ele: any = document.getElementById(eleId);
     if (ele) {
       ele.focus();
-      setTimeout(() => {
-        ele.selectionStart = ele.selectionEnd = 100;
-      }, 0);
+      // setTimeout(() => {
+      //   ele.selectionStart = ele.selectionEnd = 100;
+      // }, 0);
     }
   }
 
