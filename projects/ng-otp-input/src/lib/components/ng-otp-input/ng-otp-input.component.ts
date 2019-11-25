@@ -25,6 +25,7 @@ export class NgOtpInputComponent implements OnInit, AfterViewInit {
     Math.random()
       .toString(36)
       .substring(2) + new Date().getTime().toString(36);
+  inputType: string;
   constructor(private keysPipe: KeysPipe) {}
 
   ngOnInit() {
@@ -32,6 +33,7 @@ export class NgOtpInputComponent implements OnInit, AfterViewInit {
     for (let index = 0; index < this.config.length; index++) {
       this.otpForm.addControl(this.getControlName(index), new FormControl());
     }
+    this.inputType = this.getInputType();
   }
   ngAfterViewInit(): void {
     if (!this.config.disableAutoFocus) {
@@ -168,5 +170,12 @@ export class NgOtpInputComponent implements OnInit, AfterViewInit {
       }
     });
     this.onInputChange.emit(val);
+  }
+  getInputType():string{
+    return this.config.isPasswordInput 
+      ? 'password' 
+      : this.config.allowNumbersOnly 
+        ? 'tel'
+        : 'text';
   }
 }
