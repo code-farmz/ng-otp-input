@@ -181,19 +181,20 @@ export class NgOtpInputComponent implements OnInit, AfterViewInit {
   }
   handlePaste(e) {
     let clipboardData, pastedData;
-    let otpLength;
     // Get pasted data via clipboard API
     clipboardData = e.clipboardData || window['clipboardData'];
     pastedData = parseInt(clipboardData.getData('Text'), 10);
     // Stop data actually being pasted into div
     e.stopPropagation();
     e.preventDefault();
+    if (this.config.allowNumbersOnly && isNaN(pastedData)) {
+      return;
+    }
     // Do whatever with pasted data
-    otpLength = clipboardData.getData('Text').length;
     this.setValue(pastedData);
     const containerItem = document.getElementById(`c_${this.componentKey}`);
-    if(otpLength < this.config.length) {
-      const otpLengthWithin: any = containerItem.getElementsByClassName('otp-input')[otpLength];
+    if(pastedData.toString().length < this.config.length) {
+      const otpLengthWithin: any = containerItem.getElementsByClassName('otp-input')[pastedData.toString().length];
       otpLengthWithin.focus();
     } else {
       const otpLengthExceeded: any = containerItem.getElementsByClassName('otp-input')[this.config.length - 1];
