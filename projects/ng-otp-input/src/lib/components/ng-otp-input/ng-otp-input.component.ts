@@ -39,6 +39,7 @@ export class NgOtpInputComponent implements OnInit, AfterViewInit {
     if (!this.config.disableAutoFocus) {
       const containerItem = document.getElementById(`c_${this.componentKey}`);
       if (containerItem) {
+        containerItem.addEventListener('paste', (evt) => this.handlePaste(evt));
         const ele: any = containerItem.getElementsByClassName('otp-input')[0];
         if (ele && ele.focus) {
           ele.focus();
@@ -177,5 +178,26 @@ export class NgOtpInputComponent implements OnInit, AfterViewInit {
       : this.config.allowNumbersOnly 
         ? 'tel'
         : 'text';
+  }
+  handlePaste(e) {
+    let clipboardData, pastedData;
+    let otpLength;
+    // Get pasted data via clipboard API
+    clipboardData = e.clipboardData || window['clipboardData'];
+    pastedData = parseInt(clipboardData.getData('Text'), 10);
+    // Stop data actually being pasted into div
+    e.stopPropagation();
+    e.preventDefault();
+    // Do whatever with pasted data
+    otpLength = clipboardData.getData('Text').length;
+    this.setValue(pastedData);
+    const containerItem = document.getElementById(`c_${this.componentKey}`);
+    if(otpLength < this.config.length) {
+      const otpLengthWithin: any = containerItem.getElementsByClassName('otp-input')[otpLength];
+      otpLengthWithin.focus();
+    } else {
+      const otpLengthExceeded: any = containerItem.getElementsByClassName('otp-input')[this.config.length - 1];
+      otpLengthExceeded.focus();
+    }
   }
 }
