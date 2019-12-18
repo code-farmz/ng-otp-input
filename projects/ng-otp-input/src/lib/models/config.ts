@@ -8,4 +8,5 @@ export class Config {
     containerClass?: string;
     isPasswordInput?: boolean;
     disableAutoFocus?: boolean;
+    placeholder?: string;
 }

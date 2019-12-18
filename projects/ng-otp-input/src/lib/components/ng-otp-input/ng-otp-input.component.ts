@@ -34,11 +34,13 @@ export class NgOtpInputComponent implements OnInit, AfterViewInit {
       this.otpForm.addControl(this.getControlName(index), new FormControl());
     }
     this.inputType = this.getInputType();
+    
   }
   ngAfterViewInit(): void {
     if (!this.config.disableAutoFocus) {
       const containerItem = document.getElementById(`c_${this.componentKey}`);
       if (containerItem) {
+        containerItem.addEventListener('paste', (evt) => this.handlePaste(evt));
         const ele: any = containerItem.getElementsByClassName('otp-input')[0];
         if (ele && ele.focus) {
           ele.focus();
@@ -136,9 +138,6 @@ export class NgOtpInputComponent implements OnInit, AfterViewInit {
     const ele: any = document.getElementById(eleId);
     if (ele) {
       ele.focus();
-      // setTimeout(() => {
-      //   ele.selectionStart = ele.selectionEnd = 100;
-      // }, 0);
     }
   }
 
@@ -158,6 +157,12 @@ export class NgOtpInputComponent implements OnInit, AfterViewInit {
             this.otpForm.get(this.getControlName(idx)).setValue(c);
           }
      });
+     const containerItem = document.getElementById(`c_${this.componentKey}`);
+     var indexOfElementToFocus=value.length < this.config.length ? value.length : (this.config.length - 1);
+     let ele:any = containerItem.getElementsByClassName('otp-input')[indexOfElementToFocus];
+     if(ele && ele.focus){
+       ele.focus();
+     }
      this.rebuildValue();
   }
 
@@ -177,5 +182,19 @@ export class NgOtpInputComponent implements OnInit, AfterViewInit {
       : this.config.allowNumbersOnly 
         ? 'tel'
         : 'text';
+  }
+  handlePaste(e) {
+    // Get pasted data via clipboard API
+    let clipboardData = e.clipboardData || window['clipboardData'];
+    if(clipboardData){
+     var pastedData =clipboardData.getData('Text');
+    }
+    // Stop data actually being pasted into div
+    e.stopPropagation();
+    e.preventDefault();
+    if (!pastedData) {
+      return;
+    }
+    this.setValue(pastedData);
   }
 }
