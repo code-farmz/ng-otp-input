@@ -24,9 +24,12 @@
         (ngModelChange)="onConfigChange()">
     </li>
     <li>
+      <span class="s-t">Placeholder</span>
+      <input type="text" name="input-placeholder" [(ngModel)]="config.placeholder" class="f-c" maxlength="1"  (change)="onConfigChange()">
+    </li>
+    <li>
       <span class="s-t">Update value to</span>
-      <input type="text" #valInput name="input-length" class="f-c" min="1" max="10">
-      <button (click)="setVal(valInput.value)" class="btn-updt">Update</button>
+      <input type="text" #valInput name="input-update-val" placeholder="focus out after change" (change)="setVal(valInput.value)" class="f-c" min="1" max="10">
     </li>
   </ul>
 </div>

@@ -136,6 +136,13 @@ ou can define other key codes if needed.</td>
 <td>--</td>
 <td>First input will be auto focused on component load enable this flag to prevent this behaviour</td>
 </tr>
+<tr>
+<td>placeholder</td>
+<td>string</td>
+<td>false</td>
+<td>--</td>
+<td>input placeholder</td>
+</tr>
 </table>
 
 **Updating component value using setValue method**
