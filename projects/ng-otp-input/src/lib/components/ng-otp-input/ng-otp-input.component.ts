@@ -34,7 +34,7 @@ export class NgOtpInputComponent implements OnInit, AfterViewInit {
       this.otpForm.addControl(this.getControlName(index), new FormControl());
     }
     this.inputType = this.getInputType();
-    
+
   }
   ngAfterViewInit(): void {
     if (!this.config.disableAutoFocus) {
@@ -147,23 +147,25 @@ export class NgOtpInputComponent implements OnInit, AfterViewInit {
         return;
     }
     this.otpForm.reset();
-     if (!value) {
-       this.rebuildValue();
-       return;
-     }
-     value = value.toString().replace(/\s/g, ''); // remove whitespace
-     Array.from(value).forEach((c, idx) => {
-          if (this.otpForm.get(this.getControlName(idx))) {
-            this.otpForm.get(this.getControlName(idx)).setValue(c);
-          }
-     });
-     const containerItem = document.getElementById(`c_${this.componentKey}`);
-     var indexOfElementToFocus=value.length < this.config.length ? value.length : (this.config.length - 1);
-     let ele:any = containerItem.getElementsByClassName('otp-input')[indexOfElementToFocus];
-     if(ele && ele.focus){
-       ele.focus();
-     }
-     this.rebuildValue();
+    if (!value) {
+      this.rebuildValue();
+      return;
+    }
+
+    value = value.toString().replace(/\s/g, ''); // remove whitespace
+    Array.from(value).forEach((c, idx) => {
+        if (this.otpForm.get(this.getControlName(idx))) {
+          this.otpForm.get(this.getControlName(idx)).setValue(c);
+        }
+    });
+
+    const containerItem = document.getElementById(`c_${this.componentKey}`);
+    const indexOfElementToFocus = value.length < this.config.length ? value.length : (this.config.length - 1);
+    const ele: any = containerItem.getElementsByClassName('otp-input')[indexOfElementToFocus];
+    if (ele && ele.focus) {
+      ele.focus();
+    }
+    this.rebuildValue();
   }
 
 
@@ -177,9 +179,9 @@ export class NgOtpInputComponent implements OnInit, AfterViewInit {
     this.onInputChange.emit(val);
   }
   getInputType():string{
-    return this.config.isPasswordInput 
-      ? 'password' 
-      : this.config.allowNumbersOnly 
+    return this.config.isPasswordInput
+      ? 'password'
+      : this.config.allowNumbersOnly
         ? 'tel'
         : 'text';
   }
