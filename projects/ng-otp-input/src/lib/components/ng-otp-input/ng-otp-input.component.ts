@@ -159,11 +159,13 @@ export class NgOtpInputComponent implements OnInit, AfterViewInit {
         }
     });
 
-    const containerItem = document.getElementById(`c_${this.componentKey}`);
-    const indexOfElementToFocus = value.length < this.config.length ? value.length : (this.config.length - 1);
-    const ele: any = containerItem.getElementsByClassName('otp-input')[indexOfElementToFocus];
-    if (ele && ele.focus) {
-      ele.focus();
+    if (!this.config.disableAutoFocus) {
+      const containerItem = document.getElementById(`c_${this.componentKey}`);
+      const indexOfElementToFocus = value.length < this.config.length ? value.length : (this.config.length - 1);
+      const ele: any = containerItem.getElementsByClassName('otp-input')[indexOfElementToFocus];
+      if (ele && ele.focus) {
+        ele.focus();
+      }
     }
     this.rebuildValue();
   }
