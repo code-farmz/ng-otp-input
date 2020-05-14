@@ -157,11 +157,13 @@ export class NgOtpInputComponent implements OnInit, AfterViewInit {
             this.otpForm.get(this.getControlName(idx)).setValue(c);
           }
      });
-     const containerItem = document.getElementById(`c_${this.componentKey}`);
-     var indexOfElementToFocus=value.length < this.config.length ? value.length : (this.config.length - 1);
-     let ele:any = containerItem.getElementsByClassName('otp-input')[indexOfElementToFocus];
-     if(ele && ele.focus){
-       ele.focus();
+     if (!this.config.disableAutoFocus) {
+      const containerItem = document.getElementById(`c_${this.componentKey}`);
+      var indexOfElementToFocus = value.length < this.config.length ? value.length : (this.config.length - 1);
+      let ele : any = containerItem.getElementsByClassName('otp-input')[indexOfElementToFocus];
+      if (ele && ele.focus) {
+        ele.focus();
+      }
      }
      this.rebuildValue();
   }

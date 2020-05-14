@@ -134,7 +134,7 @@ ou can define other key codes if needed.</td>
 <td>bool</td>
 <td>false</td>
 <td>--</td>
-<td>First input will be auto focused on component load enable this flag to prevent this behaviour</td>
+<td>First input will be auto focused on component load and Next empty `setValue` excecution enable this flag to prevent this behaviour</td>
 </tr>
 <tr>
 <td>placeholder</td>
