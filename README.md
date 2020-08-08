@@ -162,6 +162,16 @@ yourMethod(){
 }
 
 ```
+
+**Disable inputs**
+
+Inputs can be disabled by getting the otp form instance of the component and calling disable method
+
+1.Get the component ref in the same way as done in SetValue method above
+2.Call disable method of otpForm as follow
+
+``` this.ngOtpInputRef.otpForm.disable(); ```
+
 ## Contributing
 
 Add a star to show your support and feel free to open [issues](https://github.com/code-farmz/ng-otp-input/issues/new) and [pull requests](https://github.com/code-farmz/ng-otp-input/compare)! 

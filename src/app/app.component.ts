@@ -28,6 +28,16 @@ export class AppComponent {
     this.ngOtpInput.setValue(val);
   }
 
+  toggleDisable(){
+    if(this.ngOtpInput.otpForm){
+      if(this.ngOtpInput.otpForm.disabled){
+        this.ngOtpInput.otpForm.enable();
+      }else{
+        this.ngOtpInput.otpForm.disable();
+      }
+    }
+  }
+
   onConfigChange() {
     this.showOtpComponent = false;
     this.otp = null;
