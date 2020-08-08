@@ -1,37 +1,186 @@
-## Welcome to GitHub Pages
+# ng-otp-input
+[![Npm Version](https://img.shields.io/badge/npm-v1.7.1-blue.svg)](https://www.npmjs.com/package/ng-otp-input) 
 
-You can use the [editor on GitHub](https://github.com/code-farmz/ng-otp-input/edit/gh-pages/index.md) to maintain and preview the content for your website in Markdown files.
+A fully customizable, one-time password input component for the web built with Angular.
 
-Whenever you commit to this repository, GitHub Pages will run [Jekyll](https://jekyllrb.com/) to rebuild the pages in your site, from the content in your Markdown files.
+![GIPHY](https://media.giphy.com/media/TdpKuX7H1KBvvR2Hpu/giphy.gif)
 
-### Markdown
+<a href="https://stackblitz.com/github/code-farmz/ng-otp-input" target="_blank">Stackbliz Demo</a>
+# Installation
+```
+npm install --save ng-otp-input
+```
+# Usage
+Add NgOtpInputModule to imports `app.module.ts` something like
 
-Markdown is a lightweight and easy-to-use syntax for styling your writing. It includes conventions for
+    import { BrowserModule } from  '@angular/platform-browser';
+    import { NgModule } from  '@angular/core';
+    import { AppComponent } from  './app.component';
+    import { NgOtpInputModule } from  'ng-otp-input';
+    
+        @NgModule({
+        declarations: [AppComponent],
+        imports: [ BrowserModule,
+        NgOtpInputModule],
+        bootstrap: [AppComponent]
+        })
 
-```markdown
-Syntax highlighted code block
+Add component to your page:
+  
+  
 
-# Header 1
-## Header 2
-### Header 3
+    <ng-otp-input  (onInputChange)="onOtpChange($event)"  [config]="{length:5}"></ng-otp-input>
 
-- Bulleted
-- List
+# API
 
-1. Numbered
-2. List
+<table>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Required</th>
+<th>default</th>
+<th>Description</th>
+</tr>
+<tr>
+<td>config</td>
+<td>object</td>
+<td>true</td>
+<td>{length:4}</td>
+<td>Various configuration options to customize the component</td>
+</tr>
+<tr>
+<td>onOtpChange</td>
+<td>function</td>
+<td>true</td>
+<td>--</td>
+<td>Function that will receive the otp</td>
+</tr>
+<tr>
+<td>setValue</td>
+<td>function</td>
+<td>false</td>
+<td>--</td>
+<td>Call setValue method of component to update component value. See example below</td>
+</tr>
+</table>
 
-**Bold** and _Italic_ and `Code` text
+**Config options**
+<table>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Required</th>
+<th>default</th>
+<th>Description</th>
+</tr>
+<tr>
+<td>length</td>
+<td>number</td>
+<td>true</td>
+<td>4</td>
+<td>Number of OTP inputs to be rendered.</td>
+</tr>
+<tr>
+<td>inputStyles</td>
+<td>object</td>
+<td>false</td>
+<td>--</td>
+<td>Style applied to each input.Check [ngStyles](https://angular.io/api/common/NgStyle) for more info.</td>
+</tr>
+<tr>
+<td>inputClass</td>
+<td>string</td>
+<td>false</td>
+<td>--</td>
+<td>Class applied to each input.</td>
+</tr>
+<tr>
+<td>containerClass</td>
+<td>string</td>
+<td>false</td>
+<td>--</td>
+<td>Class applied to container element.</td>
+</tr>
+<tr>
+<td>containerStyles</td>
+<td>object</td>
+<td>false</td>
+<td>--</td>
+<td>Style applied to container element.Check [ngStyles](https://angular.io/api/common/NgStyle) for more info.</td>
+</tr>
+<tr>
+<tr>
+<td>allowNumbersOnly</td>
+<td>bool</td>
+<td>false</td>
+<td>--</td>
+<td>set true to allow only numbers as input</td>
+</tr>
+<td>allowKeyCodes</td>
+<td>string[]</td>
+<td>false</td>
+<td>--</td>
+<td>By default numbers alphabets and _ - are allowed.Y
+ou can define other key codes if needed.</td>
+</tr>
+<tr>
+<td>isPasswordInput</td>
+<td>bool</td>
+<td>false</td>
+<td>--</td>
+<td>set true for password type input</td>
+</tr>
+<tr>
+<td>disableAutoFocus</td>
+<td>bool</td>
+<td>false</td>
+<td>--</td>
+<td>First input will be auto focused on component load and Next empty `setValue` excecution enable this flag to prevent this behaviour</td>
+</tr>
+<tr>
+<td>placeholder</td>
+<td>string</td>
+<td>false</td>
+<td>--</td>
+<td>input placeholder</td>
+</tr>
+</table>
 
-[Link](url) and ![Image](src)
+**Updating component value using setValue method**
+
+Component value can be updated using `setValue` method of the component example:-
+
+
+```<ng-otp-input #ngOtpInput ></ng-otp-input> //add hash to ng-otp-input component```
+
+then in your component reference using [@ViewChild](https://angular.io/api/core/ViewChild) and call `setValue` method when you want to set the value of component like
+
+```
+@ViewChild('ngOtpInput') ngOtpInputRef:any;//Get reference using ViewChild and the specified hash
+yourMethod(){
+  this.ngOtpInputRef.setValue(yourValue);//yourvalue can be any string or number eg. 1234 or '1234'
+}
+
 ```
 
-For more details see [GitHub Flavored Markdown](https://guides.github.com/features/mastering-markdown/).
+**Disable inputs**
 
-### Jekyll Themes
+Inputs can be disabled by getting the otp form instance of the component and calling disable method
 
-Your Pages site will use the layout and styles from the Jekyll theme you have selected in your [repository settings](https://github.com/code-farmz/ng-otp-input/settings). The name of this theme is saved in the Jekyll `_config.yml` configuration file.
+1.Get the component ref in the same way as done in SetValue method above
+2.Call disable method of otpForm as follow
 
-### Support or Contact
+``` this.ngOtpInputRef.otpForm.disable(); ```
 
-Having trouble with Pages? Check out our [documentation](https://docs.github.com/categories/github-pages-basics/) or [contact support](https://github.com/contact) and we’ll help you sort it out.
+## Contributing
+
+Add a star to show your support and feel free to open [issues](https://github.com/code-farmz/ng-otp-input/issues/new) and [pull requests](https://github.com/code-farmz/ng-otp-input/compare)! 
+
+
+## License
+
+MIT
+
+
+
+
