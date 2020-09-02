@@ -1,16 +1,24 @@
-import { Directive, ElementRef, Renderer2, Input } from '@angular/core';
+import { Directive, Input, HostListener } from '@angular/core';
 
 @Directive({
-  selector: '[numberOnly]'
+    selector: '[numberOnly]'
 })
 export class NumberOnlyDirective {
-  @Input() disabledNumberOnly:boolean;
-  constructor (private _elRef: ElementRef, private _renderer: Renderer2) { }
+    @Input() disabledNumberOnly: boolean;
+    constructor() {}
 
-  ngOnInit() {
-    if(!this.disabledNumberOnly){
-      this._renderer.setAttribute(this._elRef.nativeElement, 'onkeypress', 'return (event.charCode >= 48 && event.charCode <= 57) || event.charCode == 0');
+    @HostListener('keydown', ['$event']) onKeyDown(event: KeyboardEvent) {
+        if (!this.disabledNumberOnly) {
+            if (
+                [46, 8, 27, 13].indexOf(event.keyCode) !== -1 ||
+                (event.keyCode === 86 && (event.ctrlKey || event.metaKey)) ||
+                (event.keyCode >= 35 && event.keyCode <= 39)
+            ) {
+                return;
+            }
+            if (event.shiftKey || event.keyCode < 48 || event.keyCode > 57) {
+                event.preventDefault();
+            }
+        }
     }
-  }
-
 }
