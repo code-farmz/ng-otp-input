@@ -11,22 +11,23 @@ A fully customizable, one-time password input component for the web built with A
 npm install --save ng-otp-input
 ```
 # Usage
-Add NgOtpInputModule to imports `app.module.ts` something like
+Add `NgOtpInputModule` to imports `app.module.ts` something like
 
     import { BrowserModule } from  '@angular/platform-browser';
     import { NgModule } from  '@angular/core';
     import { AppComponent } from  './app.component';
     import { NgOtpInputModule } from  'ng-otp-input';
     
-        @NgModule({
+    @NgModule({
         declarations: [AppComponent],
-        imports: [ BrowserModule,
-        NgOtpInputModule],
+        imports: [
+          BrowserModule,
+          NgOtpInputModule
+        ],
         bootstrap: [AppComponent]
-        })
+    })
 
 Add component to your page:
-  
   
 
     <ng-otp-input  (onInputChange)="onOtpChange($event)"  [config]="{length:5}"></ng-otp-input>
