@@ -40,12 +40,16 @@
   <div class="o-c">
     <div>
       <div class="card">
-        <p class="a-o-i">Enter verification code</p>
-        <ng-otp-input #ngOtpInput (onInputChange)="onOtpChange($event)" *ngIf="showOtpComponent" [config]="config"></ng-otp-input>
-        <span *ngIf="otp" class="o-t-p">Entered otp :-{{otp}}</span>
+        <form [formGroup]="otpForm">
+          <p class="a-o-i">Enter verification code</p>
+          <ng-otp-input #ngOtpInput (onInputChange)="onOtpChange($event)" *ngIf="showOtpComponent" [config]="config"
+            formControlName="otp">
+          </ng-otp-input>
+          <span *ngIf="otpForm.invalid && otpForm.get('otp').errors" class="o-t-p">Otp must be {{config.length}} characters long</span>
+          <span *ngIf="otp" class="o-t-p">Entered otp:-{{otp}}</span>
+          <span *ngIf="otpForm.value.otp" class="o-t-p">Form otp:-{{otpForm.value.otp}}</span>
+        </form>
       </div>
     </div>
   </div>
 </div>
-
-

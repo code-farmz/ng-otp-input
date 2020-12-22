@@ -1,4 +1,5 @@
 import { Component, ViewChild } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-root',
@@ -6,7 +7,7 @@ import { Component, ViewChild } from '@angular/core';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
-  otp: string;
+  otp: string = '';
   showOtpComponent = true;
   @ViewChild('ngOtpInput', { static: false}) ngOtpInput: any;
   config = {
@@ -20,7 +21,18 @@ export class AppComponent {
       'height': '50px'
     }
   };
-  onOtpChange(otp) {
+  otpForm: FormGroup;
+
+  constructor(
+    private formBuilder: FormBuilder
+  ) {
+    this.otpForm = this.formBuilder.group({
+      otp: [this.config.placeholder.repeat(this.config.length),
+        Validators.minLength(this.config.length)]
+    });
+  }
+
+  onOtpChange(otp: string) {
     this.otp = otp;
   }
 
@@ -30,17 +42,14 @@ export class AppComponent {
 
   toggleDisable(){
     if(this.ngOtpInput.otpForm){
-      if(this.ngOtpInput.otpForm.disabled){
-        this.ngOtpInput.otpForm.enable();
-      }else{
-        this.ngOtpInput.otpForm.disable();
-      }
+      this.ngOtpInput.setDisabledState(!this.ngOtpInput.otpForm.disabled);
     }
   }
 
   onConfigChange() {
     this.showOtpComponent = false;
     this.otp = null;
+    this.otpForm.reset({ otp: this.config.placeholder.repeat(this.config.length) })
     setTimeout(() => {
       this.showOtpComponent = true;
     }, 0);
