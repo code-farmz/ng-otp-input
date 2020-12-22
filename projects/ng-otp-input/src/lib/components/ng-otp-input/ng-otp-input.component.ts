@@ -4,18 +4,26 @@ import {
   Input,
   Output,
   EventEmitter,
-  AfterViewInit
+  AfterViewInit,
+  forwardRef
 } from '@angular/core';
-import { FormGroup, FormControl } from '@angular/forms';
+import { FormGroup, FormControl, ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { KeysPipe } from '../../pipes/keys.pipe';
 import { Config } from '../../models/config';
 @Component({
   // tslint:disable-next-line: component-selector
   selector: 'ng-otp-input',
   templateUrl: './ng-otp-input.component.html',
-  styleUrls: ['./ng-otp-input.component.scss']
+  styleUrls: ['./ng-otp-input.component.scss'],
+  providers: [
+    {
+      provide: NG_VALUE_ACCESSOR,
+      useExisting: forwardRef(() => NgOtpInputComponent),
+      multi: true
+    }
+  ]
 })
-export class NgOtpInputComponent implements OnInit, AfterViewInit {
+export class NgOtpInputComponent implements OnInit, AfterViewInit, ControlValueAccessor {
   @Input() config: Config = { length: 4 };
   // tslint:disable-next-line: no-output-on-prefix
   @Output() onInputChange = new EventEmitter<string>();
@@ -26,6 +34,8 @@ export class NgOtpInputComponent implements OnInit, AfterViewInit {
       .toString(36)
       .substring(2) + new Date().getTime().toString(36);
   inputType: string;
+  onChange = (_: any) => { }
+  onTouch = () => { }
   constructor(private keysPipe: KeysPipe) {}
 
   ngOnInit() {
@@ -176,6 +186,7 @@ export class NgOtpInputComponent implements OnInit, AfterViewInit {
         val += this.otpForm.controls[k].value;
       }
     });
+    this.onChange(val);
     this.onInputChange.emit(val);
   }
   getInputType():string{
@@ -198,5 +209,25 @@ export class NgOtpInputComponent implements OnInit, AfterViewInit {
       return;
     }
     this.setValue(pastedData);
+  }
+
+  writeValue(value: any): void {
+    this.setValue(value);
+  }
+
+  registerOnChange(fn: any): void {
+    this.onChange = fn;
+  }
+
+  registerOnTouched(fn: any): void {
+    this.onTouch = fn;
+  }
+
+  setDisabledState(isDisabled: boolean): void {
+    if (isDisabled) {
+      this.otpForm.disable();
+    } else {
+      this.otpForm.enable();
+    }
   }
 }
