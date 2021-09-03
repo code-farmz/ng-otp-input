@@ -173,7 +173,10 @@ export class NgOtpInputComponent implements OnInit, AfterViewInit {
     let val = '';
     this.keysPipe.transform(this.otpForm.controls).forEach(k => {
       if (this.otpForm.controls[k].value) {
-        val += this.otpForm.controls[k].value;
+        let ctrlVal=this.otpForm.controls[k].value;
+        val += ctrlVal[0];
+        if(ctrlVal.length>1) // fix bug #49
+        this.otpForm.controls[k].patchValue(ctrlVal[0]);
       }
     });
     this.onInputChange.emit(val);

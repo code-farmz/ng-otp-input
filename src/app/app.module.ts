@@ -3,7 +3,7 @@ import { NgModule } from '@angular/core';
 
 import { AppComponent } from './app.component';
 import { FormsModule } from '@angular/forms';
-import { NgOtpInputModule } from 'ng-otp-input';
+import { NgOtpInputModule } from 'projects/ng-otp-input/src/public_api';
 
 @NgModule({
   declarations: [

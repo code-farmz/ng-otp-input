@@ -1,10 +1,14 @@
 {
   "name": "ng-otp-input",
-  "version": "1.7.1",
+  "version": "1.7.2",
   "description": "A fully customizable, one-time password input component for the web built with Angular.",
   "author": {"name": "jitender"},
+  "homepage": "https://github.com/code-farmz/ng-otp-input#readme",
   "repository": {"type": "git","url": "https://github.com/code-farmz/ng-otp-input"},
-  "keywords": ["angular otp input","ng otp input","ngx otp input","angular4 otp input","angular5 otp input","angular6 otp input","angular7 otp input","angular8 otp input","otp input angular","angular otp password box","angular otp verification"],
+  "bugs": {
+    "url": "https://github.com/code-farmz/ng-otp-input/issues"
+  },
+  "keywords": ["angular otp input","ng otp input","ngx otp input","angular4 otp input","angular5 otp input","angular6 otp input","angular7 otp input","angular8 otp input","angular9 otp input","angular10 otp input","angular11 otp input","angular12 otp input","otp input angular","angular otp password box","angular otp verification"],
   "license": "MIT",
   "peerDependencies": {
     "@angular/common": ">=6.0.0",
