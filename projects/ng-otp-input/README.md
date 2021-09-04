@@ -1,12 +1,12 @@
 # ng-otp-input
-[![Npm Version](https://img.shields.io/badge/npm-v1.7.5-blue.svg)](https://www.npmjs.com/package/ng-otp-input) 
+[![Npm Version](https://img.shields.io/badge/npm-v1.7.7-blue.svg)](https://www.npmjs.com/package/ng-otp-input) 
 
 A fully customizable, one-time password input component for the web built with Angular.
 
 ![GIPHY](https://media.giphy.com/media/TdpKuX7H1KBvvR2Hpu/giphy.gif)
 
 
-<a href="https://stackblitz.com/github/code-farmz/ng-otp-input" target="_blank">Demo</a>
+<a href="https://code-farmz.github.io/ng-otp-input" target="_blank">Demo</a>
 
 <a href="https://stackblitz.com/github/code-farmz/ng-otp-input" target="_blank">Edit on Stackbliz</a>
 # Installation
