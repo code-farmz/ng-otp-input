@@ -35,11 +35,12 @@ export class NgOtpInputComponent implements OnInit, AfterViewInit {
     }
     
     this.otpForm.valueChanges.subscribe((v:object)=>{
-      var isEmpty=Object.values(v).some(v=> v == null);
-      var objValues=''.concat(...Object.values(v).filter(v=> v != null));
-      if(isEmpty && objValues.length>= this.config.length){
-        this.setValue(objValues);
-      }
+      this.keysPipe.transform(this.otpForm.controls).forEach((k) => {
+        var val = this.otpForm.controls[k].value;
+        if (val && val.length >= this.config.length) {
+          this.setValue(val);
+        }
+      });
     });
     this.inputType = this.getInputType();
     
