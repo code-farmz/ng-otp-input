@@ -33,6 +33,14 @@ export class NgOtpInputComponent implements OnInit, AfterViewInit {
     for (let index = 0; index < this.config.length; index++) {
       this.otpForm.addControl(this.getControlName(index), new FormControl());
     }
+    
+    this.otpForm.valueChanges.subscribe((v:object)=>{
+      var isEmpty=Object.values(v).some(v=> v == null);
+      var objValues=''.concat(...Object.values(v).filter(v=> v != null));
+      if(isEmpty && objValues.length>= this.config.length){
+        this.setValue(objValues);
+      }
+    });
     this.inputType = this.getInputType();
     
   }
