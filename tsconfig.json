@@ -18,10 +18,10 @@
     ],
     "paths": {
       "l-ng-otp-input": [
-        "dist/l-ng-otp-input"
+        "dist/l-ng-otp-input-repo"
       ],
       "l-ng-otp-input/*": [
-        "dist/l-ng-otp-input/*"
+        "dist/l-ng-otp-input-repo/*"
       ]
     }
   }
