@@ -1,6 +1,6 @@
 {
   "name": "ng-otp-input",
-  "version": "1.7.9",
+  "version": "1.8.0",
   "description": "A fully customizable, one-time password input component for the web built with Angular.",
   "author": {"name": "jitender"},
   "homepage": "https://github.com/code-farmz/ng-otp-input#readme",

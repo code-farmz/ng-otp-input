@@ -1,5 +1,5 @@
-# ng-otp-input
-[![Npm Version](https://img.shields.io/badge/npm-v1.7.9-blue.svg)](https://www.npmjs.com/package/ng-otp-input) 
+## ng-otp-input
+[![Npm Version](https://img.shields.io/badge/npm-v1.8.0-blue.svg)](https://www.npmjs.com/package/ng-otp-input) 
 
 A fully customizable, one-time password input component for the web built with Angular.
 
@@ -9,11 +9,11 @@ A fully customizable, one-time password input component for the web built with A
 <a href="https://code-farmz.github.io/ng-otp-input" target="_blank">Demo</a>
 
 <a href="https://stackblitz.com/github/code-farmz/ng-otp-input" target="_blank">Edit on Stackbliz</a>
-# Installation
+## Installation
 ```
 npm install --save ng-otp-input
 ```
-# Usage
+## Usage
 Add NgOtpInputModule to imports `app.module.ts` something like
 
     import { BrowserModule } from  '@angular/platform-browser';
@@ -34,7 +34,7 @@ Add component to your page:
 
     <ng-otp-input  (onInputChange)="onOtpChange($event)"  [config]="{length:5}"></ng-otp-input>
 
-# API
+## API
 
 <table>
 <tr>
@@ -67,7 +67,7 @@ Add component to your page:
 </tr>
 </table>
 
-**Config options**
+<u>**Config options**</u>
 <table>
 <tr>
 <th>Name</th>
@@ -88,7 +88,7 @@ Add component to your page:
 <td>object</td>
 <td>false</td>
 <td>--</td>
-<td>Style applied to each input.Check [ngStyles](https://angular.io/api/common/NgStyle) for more info.</td>
+<td>Style applied to each input.Check https://angular.io/api/common/NgStyle for more info.</td>
 </tr>
 <tr>
 <td>inputClass</td>
@@ -109,7 +109,7 @@ Add component to your page:
 <td>object</td>
 <td>false</td>
 <td>--</td>
-<td>Style applied to container element.Check [ngStyles](https://angular.io/api/common/NgStyle) for more info.</td>
+<td>Style applied to container element.Check https://angular.io/api/common/NgStyle for more info.</td>
 </tr>
 <tr>
 <tr>
@@ -138,7 +138,7 @@ ou can define other key codes if needed.</td>
 <td>bool</td>
 <td>false</td>
 <td>--</td>
-<td>First input will be auto focused on component load and Next empty `setValue` excecution enable this flag to prevent this behaviour</td>
+<td>First input will be auto focused on component load and to next empty input on setValue excecution.Set this flag to true to prevent this behaviour</td>
 </tr>
 <tr>
 <td>placeholder</td>
@@ -149,7 +149,7 @@ ou can define other key codes if needed.</td>
 </tr>
 </table>
 
-**Updating component value using setValue method**
+<u>**Updating component value using setValue method**</u>
 
 Component value can be updated using `setValue` method of the component example:-
 
@@ -159,14 +159,17 @@ Component value can be updated using `setValue` method of the component example:
 then in your component reference using [@ViewChild](https://angular.io/api/core/ViewChild) and call `setValue` method when you want to set the value of component like
 
 ```
-@ViewChild('ngOtpInput') ngOtpInputRef:any;//Get reference using ViewChild and the specified hash
+//Get reference using ViewChild and the specified hash
+@ViewChild('ngOtpInput') ngOtpInputRef:any;
+
 yourMethod(){
-  this.ngOtpInputRef.setValue(yourValue);//yourvalue can be any string or number eg. 1234 or '1234'
+  this.ngOtpInputRef.setValue(yourValue);
+  //yourvalue can be any string or number
 }
 
 ```
 
-**Disable inputs**
+<u>**Disable inputs**</u>
 
 Inputs can be disabled by getting the otp form instance of the component and calling disable method
 
@@ -174,6 +177,10 @@ Inputs can be disabled by getting the otp form instance of the component and cal
 2.Call disable method of otpForm as follow
 
 ``` this.ngOtpInputRef.otpForm.disable(); ```
+
+## License
+
+[![NPM](https://img.shields.io/badge/license-MIT-green.svg)](https://github.com/code-farmz/ng-otp-input/blob/master/LICENSE)
 
 ## Contributing
 

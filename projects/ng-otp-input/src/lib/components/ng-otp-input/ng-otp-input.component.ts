@@ -33,18 +33,21 @@ export class NgOtpInputComponent implements OnInit, AfterViewInit {
     for (let index = 0; index < this.config.length; index++) {
       this.otpForm.addControl(this.getControlName(index), new FormControl());
     }
-    
     this.otpForm.valueChanges.subscribe((v:object)=>{
       this.keysPipe.transform(this.otpForm.controls).forEach((k) => {
         var val = this.otpForm.controls[k].value;
-        if (val && val.length >= this.config.length) {
-          this.setValue(val);
+        if(val && val.length>1){
+          if (val.length >= this.config.length) {
+            this.setValue(val);
+          }else{
+            this.rebuildValue();
+          }
         }
       });
     });
     this.inputType = this.getInputType();
-    
   }
+
   ngAfterViewInit(): void {
     if (!this.config.disableAutoFocus) {
       const containerItem = document.getElementById(`c_${this.componentKey}`);
@@ -64,7 +67,6 @@ export class NgOtpInputComponent implements OnInit, AfterViewInit {
   ifLeftArrow(event) {
     return this.ifKeyCode(event, 37);
   }
-
 
   ifRightArrow(event) {
     return this.ifKeyCode(event, 39);
@@ -177,7 +179,6 @@ export class NgOtpInputComponent implements OnInit, AfterViewInit {
      this.rebuildValue();
   }
 
-
   rebuildValue() {
     let val = '';
     this.keysPipe.transform(this.otpForm.controls).forEach(k => {
@@ -190,6 +191,7 @@ export class NgOtpInputComponent implements OnInit, AfterViewInit {
     });
     this.onInputChange.emit(val);
   }
+  
   getInputType():string{
     return this.config.isPasswordInput 
       ? 'password' 
@@ -197,6 +199,7 @@ export class NgOtpInputComponent implements OnInit, AfterViewInit {
         ? 'tel'
         : 'text';
   }
+
   handlePaste(e) {
     // Get pasted data via clipboard API
     let clipboardData = e.clipboardData || window['clipboardData'];
