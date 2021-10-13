@@ -1,5 +1,5 @@
 ## ng-otp-input
-[![Npm Version](https://img.shields.io/badge/npm-v1.8.0-blue.svg)](https://www.npmjs.com/package/ng-otp-input) 
+[![Npm Version](https://img.shields.io/badge/npm-v1.8.1-blue.svg)](https://www.npmjs.com/package/ng-otp-input) 
 
 A fully customizable, one-time password input component for the web built with Angular.
 
@@ -146,6 +146,13 @@ ou can define other key codes if needed.</td>
 <td>false</td>
 <td>--</td>
 <td>input placeholder</td>
+</tr>
+<tr>
+<td>letterCase</td>
+<td>string</td>
+<td>--</td>
+<td>--</td>
+<td>Set value to Upper or Lower to change the otp to upper case or lower case</td>
 </tr>
 </table>
 

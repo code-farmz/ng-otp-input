@@ -28,6 +28,14 @@
       <input type="text" name="input-placeholder" [(ngModel)]="config.placeholder" class="f-c" maxlength="1"  (change)="onConfigChange()">
     </li>
     <li>
+      <span class="s-t">Letter Case</span>
+      <select [(ngModel)]="config.letterCase" (change)="onConfigChange()" class="f-c">
+        <option>--Select--</option>
+        <option value="Upper">Upper</option>
+        <option value="Lower">Lower</option>
+      </select>
+    </li>
+    <li>
       <span class="s-t">Update value to</span>
       <input type="text" #valInput name="input-update-val" placeholder="Focus out to change" (change)="setVal(valInput.value)" class="f-c" min="1" max="10">
     </li>
