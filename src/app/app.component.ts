@@ -1,4 +1,5 @@
 import { Component, ViewChild } from '@angular/core';
+import { Config } from 'src/models/config';
 
 @Component({
   selector: 'app-root',
@@ -9,7 +10,7 @@ export class AppComponent {
   otp: string;
   showOtpComponent = true;
   @ViewChild('ngOtpInput', { static: false}) ngOtpInput: any;
-  config = {
+  config :Config = {
     allowNumbersOnly: false,
     length: 5,
     isPasswordInput: false,

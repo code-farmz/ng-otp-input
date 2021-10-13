@@ -184,9 +184,20 @@ export class NgOtpInputComponent implements OnInit, AfterViewInit {
     this.keysPipe.transform(this.otpForm.controls).forEach(k => {
       if (this.otpForm.controls[k].value) {
         let ctrlVal=this.otpForm.controls[k].value;
-        val += ctrlVal[0];
-        if(ctrlVal.length>1) // fix bug #49
-        this.otpForm.controls[k].patchValue(ctrlVal[0]);
+        let isLengthExceed=ctrlVal.length>1;
+        let isCaseTransformEnabled= !this.config.allowNumbersOnly && this.config.letterCase && (this.config.letterCase.toLocaleLowerCase() == 'upper' || this.config.letterCase.toLocaleLowerCase()== 'lower');
+        ctrlVal=ctrlVal[0];
+        let transformedVal=isCaseTransformEnabled ? this.config.letterCase.toLocaleLowerCase() == 'upper' ? ctrlVal.toUpperCase() : ctrlVal.toLowerCase()  : ctrlVal;
+        if(isCaseTransformEnabled && transformedVal == ctrlVal){
+          isCaseTransformEnabled=false;
+        }else{
+          ctrlVal=transformedVal;
+        }
+        val += ctrlVal;
+        if(isLengthExceed || isCaseTransformEnabled) 
+        {
+         this.otpForm.controls[k].setValue(ctrlVal);
+        }
       }
     });
     this.onInputChange.emit(val);
