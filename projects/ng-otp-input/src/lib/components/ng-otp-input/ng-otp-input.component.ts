@@ -16,7 +16,7 @@ import { Config } from '../../models/config';
   styleUrls: ['./ng-otp-input.component.scss']
 })
 export class NgOtpInputComponent implements OnInit, AfterViewInit {
-  @Input() config: Config = { length: 4 };
+  @Input() config: Config = { length: 4, inputMode: 'text' };
   // tslint:disable-next-line: no-output-on-prefix
   @Output() onInputChange = new EventEmitter<string>();
   otpForm: FormGroup;
@@ -194,7 +194,7 @@ export class NgOtpInputComponent implements OnInit, AfterViewInit {
           ctrlVal=transformedVal;
         }
         val += ctrlVal;
-        if(isLengthExceed || isCaseTransformEnabled) 
+        if(isLengthExceed || isCaseTransformEnabled)
         {
          this.otpForm.controls[k].setValue(ctrlVal);
         }
@@ -202,11 +202,11 @@ export class NgOtpInputComponent implements OnInit, AfterViewInit {
     });
     this.onInputChange.emit(val);
   }
-  
+
   getInputType():string{
-    return this.config.isPasswordInput 
-      ? 'password' 
-      : this.config.allowNumbersOnly 
+    return this.config.isPasswordInput
+      ? 'password'
+      : this.config.allowNumbersOnly
         ? 'tel'
         : 'text';
   }
