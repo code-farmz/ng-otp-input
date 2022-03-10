@@ -9,7 +9,7 @@ export class NumberOnlyDirective {
 
   ngOnInit() {
     if(!this.disabledNumberOnly){
-      this._renderer.setAttribute(this._elRef.nativeElement, 'onkeypress', 'return (event.charCode >= 48 && event.charCode <= 57) || event.charCode == 0');
+      this._renderer.setAttribute(this._elRef.nativeElement, 'onkeypress', 'return (event.charCode >= 48 && event.charCode <= 57) || event.charCode == 0  || event.charCode == 13');
     }
   }
 
