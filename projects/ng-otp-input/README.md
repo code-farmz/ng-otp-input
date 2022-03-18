@@ -1,5 +1,5 @@
 ## ng-otp-input
-[![Npm Version](https://img.shields.io/badge/npm-v1.8.1-blue.svg)](https://www.npmjs.com/package/ng-otp-input) 
+[![Npm Version](https://img.shields.io/badge/npm-v1.8.3-blue.svg)](https://www.npmjs.com/package/ng-otp-input) 
 
 A fully customizable, one-time password input component for the web built with Angular.
 
@@ -34,6 +34,10 @@ Add component to your page:
 
     <ng-otp-input  (onInputChange)="onOtpChange($event)"  [config]="{length:5}"></ng-otp-input>
 
+    or 
+
+    <ng-otp-input  [formCtrl]="YourFormControl"  [config]="{length:5}"></ng-otp-input>
+
 ## API
 
 <table>
@@ -54,9 +58,16 @@ Add component to your page:
 <tr>
 <td>onOtpChange</td>
 <td>function</td>
-<td>true</td>
+<td>false</td>
 <td>--</td>
-<td>Function that will receive the otp</td>
+<td>Function that will receive the otp.Not required if formCtrl is passed</td>
+</tr>
+<tr>
+<td>formCtrl</td>
+<td>FormControl</td>
+<td>false</td>
+<td>--</td>
+<td>If there value will be set to the passed form control no need to subscribe to onOtpChange</td>
 </tr>
 <tr>
 <td>setValue</td>
@@ -76,6 +87,7 @@ Add component to your page:
 <th>default</th>
 <th>Description</th>
 </tr>
+
 <tr>
 <td>length</td>
 <td>number</td>
@@ -161,20 +173,25 @@ ou can define other key codes if needed.</td>
 Component value can be updated using `setValue` method of the component example:-
 
 
-```<ng-otp-input #ngOtpInput ></ng-otp-input> //add hash to ng-otp-input component```
+ 1. get component reference using [@ViewChild](https://angular.io/api/core/ViewChild)  
 
-then in your component reference using [@ViewChild](https://angular.io/api/core/ViewChild) and call `setValue` method when you want to set the value of component like
+    For version 1.7.7 and latest
 
-```
-//Get reference using ViewChild and the specified hash
-@ViewChild('ngOtpInput') ngOtpInputRef:any;
+        @ViewChild(NgOtpInputComponent, { static: false}) ngOtpInput:NgOtpInputComponent;
 
-yourMethod(){
-  this.ngOtpInputRef.setValue(yourValue);
-  //yourvalue can be any string or number
-}
+    For version older than 1.7.7
+   
+        <ng-otp-input #ngOtpInput ></ng-otp-input> //add hash to ng-otp-input component```
+        @ViewChild('ngOtpInput') ngOtpInputRef:any;
 
-```
+
+    
+ 2. call `setValue` method when you want to set the value of component like
+     
+        yourMethod(){
+            this.ngOtpInputRef.setValue(yourValue);
+            //yourvalue can be any string or number
+        }
 
 <u>**Disable inputs**</u>
 

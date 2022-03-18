@@ -1,8 +1,8 @@
-<div class="wrapper {{config.containerClass}}" id="c_{{componentKey}}" *ngIf="otpForm?.controls"
+<div class="ng-otp-input-wrapper wrapper {{config.containerClass}}" id="c_{{componentKey}}" *ngIf="otpForm?.controls"
   [ngStyle]="config.containerStyles">
-  <input [pattern]="config.allowNumbersOnly ? '\\d*' : ''" [type]="inputType" numberOnly [placeholder]="config?.placeholder || ''"
-    [disabledNumberOnly]="!config.allowNumbersOnly" [ngStyle]="config.inputStyles" 
+  <input (paste)="handlePaste($event)" [pattern]="config.allowNumbersOnly ? '\\d*' : ''" [type]="inputType"  [placeholder]="config?.placeholder || ''"
+    [ngStyle]="config.inputStyles" 
     class="otp-input {{config.inputClass}}" autocomplete="one-time-code" *ngFor="let item of otpForm?.controls | keys;let i=index"
-    [formControl]="otpForm.controls[item]" id="otp_{{i}}_{{componentKey}}" (keydown)="onKeyDown($event)"
-    (keyup)="onKeyUp($event,i)">
+    [formControl]="otpForm.controls[item]" #inp id="otp_{{i}}_{{componentKey}}" 
+    (keyup)="onKeyUp($event,i)" (input)="onInput($event)" (keydown)="onKeyDown($event,i)" >
 </div>

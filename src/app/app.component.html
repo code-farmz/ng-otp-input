@@ -49,8 +49,12 @@
     <div>
       <div class="card">
         <p class="a-o-i">Enter verification code</p>
-        <ng-otp-input #ngOtpInput (onInputChange)="onOtpChange($event)" *ngIf="showOtpComponent" [config]="config"></ng-otp-input>
-        <span *ngIf="otp" class="o-t-p">Entered otp :-{{otp}}</span>
+        <ng-otp-input  (onInputChange)="onOtpChange($event)" *ngIf="showOtpComponent" [config]="config"></ng-otp-input>
+        <span  class="o-t-p">
+          <ng-container *ngIf="otp">
+            Entered otp :-{{otp}}
+          </ng-container>
+          </span>
       </div>
     </div>
   </div>

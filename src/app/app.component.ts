@@ -1,5 +1,5 @@
 import { Component, ViewChild } from '@angular/core';
-import { Config } from 'src/models/config';
+import { NgOtpInputComponent, NgOtpInputConfig } from 'ng-otp-input';
 
 @Component({
   selector: 'app-root',
@@ -9,17 +9,13 @@ import { Config } from 'src/models/config';
 export class AppComponent {
   otp: string;
   showOtpComponent = true;
-  @ViewChild('ngOtpInput', { static: false}) ngOtpInput: any;
-  config :Config = {
+  @ViewChild(NgOtpInputComponent, { static: false}) ngOtpInput:NgOtpInputComponent;
+  config :NgOtpInputConfig = {
     allowNumbersOnly: false,
     length: 5,
     isPasswordInput: false,
     disableAutoFocus: false,
-    placeholder: '',
-    inputStyles: {
-      'width': '50px',
-      'height': '50px'
-    }
+    placeholder: ''
   };
   onOtpChange(otp) {
     this.otp = otp;
