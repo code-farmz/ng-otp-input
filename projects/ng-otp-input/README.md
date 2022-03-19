@@ -1,5 +1,5 @@
 ## ng-otp-input
-[![Npm Version](https://img.shields.io/badge/npm-v1.8.3-blue.svg)](https://www.npmjs.com/package/ng-otp-input) 
+[![Npm Version](https://img.shields.io/badge/npm-v1.8.5-blue.svg)](https://www.npmjs.com/package/ng-otp-input) 
 
 A fully customizable, one-time password input component for the web built with Angular.
 
@@ -10,9 +10,15 @@ A fully customizable, one-time password input component for the web built with A
 
 <a href="https://stackblitz.com/github/code-farmz/ng-otp-input" target="_blank">Edit on Stackbliz</a>
 ## Installation
-```
-npm install --save ng-otp-input
-```
+
+#### For angular latest angular version(V12 and above)
+
+        npm install --save ng-otp-input
+    
+#### For older angular version use v1.8.1
+
+        npm install --save ng-otp-input@1.8.1
+
 ## Usage
 Add NgOtpInputModule to imports `app.module.ts` something like
 
