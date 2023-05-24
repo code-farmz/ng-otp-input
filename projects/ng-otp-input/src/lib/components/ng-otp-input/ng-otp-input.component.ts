@@ -140,9 +140,7 @@ export class NgOtpInputComponent implements OnInit, AfterViewInit {
     const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
     return (
       isMobile ||
-      /[a-zA-Z0-9-_]/.test(inp) ||
-      (this.config.allowKeyCodes &&
-        this.config.allowKeyCodes.includes(event.keyCode)) 
+      /[a-zA-Z0-9-_]/.test(inp)
     );
   }
 

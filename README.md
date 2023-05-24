@@ -137,13 +137,6 @@ Add component to your page:
 <td>--</td>
 <td>set true to allow only numbers as input</td>
 </tr>
-<td>allowKeyCodes</td>
-<td>string[]</td>
-<td>false</td>
-<td>--</td>
-<td>By default numbers alphabets and _ - are allowed.Y
-ou can define other key codes if needed.</td>
-</tr>
 <tr>
 <td>isPasswordInput</td>
 <td>bool</td>

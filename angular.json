@@ -143,6 +143,5 @@
         }
       }
     }
-  },
-  "defaultProject": "ng-otp-input-repo"
+  }
 }
