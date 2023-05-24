@@ -1,5 +1,5 @@
 ## ng-otp-input
-[![Npm Version](https://img.shields.io/badge/npm-v1.8.5-blue.svg)](https://www.npmjs.com/package/ng-otp-input) 
+[![Npm Version](https://img.shields.io/badge/npm-v1.9.1-blue.svg)](https://www.npmjs.com/package/ng-otp-input) 
 
 A fully customizable, one-time password input component for the web built with Angular.
 
@@ -137,13 +137,6 @@ Add component to your page:
 <td>--</td>
 <td>set true to allow only numbers as input</td>
 </tr>
-<td>allowKeyCodes</td>
-<td>string[]</td>
-<td>false</td>
-<td>--</td>
-<td>By default numbers alphabets and _ - are allowed.Y
-ou can define other key codes if needed.</td>
-</tr>
 <tr>
 <td>isPasswordInput</td>
 <td>bool</td>
@@ -207,6 +200,17 @@ Inputs can be disabled by getting the otp form instance of the component and cal
 2.Call disable method of otpForm as follow
 
 ``` this.ngOtpInputRef.otpForm.disable(); ```
+
+<u>**Focus to Specific box**</u>
+
+1.Get the component ref in the same way as done in SetValue method above
+
+2.Get the box id and call ```focusTo``` method as follow
+
+``` 
+    let eleId=this.ngOtpInputRef.getBoxId(0);
+    this.ngOtpInputRef.focusTo(eleId);
+```
 
 ## License
 

@@ -72,10 +72,22 @@ export class NgOtpInputComponent implements OnInit, AfterViewInit {
   }
 
   onKeyDown($event, inputIdx){
+    const prevInputId = this.getBoxId(inputIdx - 1);
+    const currentInputId = this.getBoxId(inputIdx);
     if (KeyboardUtil.ifSpacebar($event)) {
       $event.preventDefault();
       return false;
      }
+     if (KeyboardUtil.ifBackspace($event)) {
+      if(!$event.target.value){
+        this.clearInput(prevInputId,inputIdx-1);
+        this.setSelected(prevInputId);
+      }else{
+        this.clearInput(currentInputId,inputIdx);
+      }
+      this.rebuildValue();
+      return;
+    }
   }
   onInput($event){
     let newVal=this.currentVal ? `${this.currentVal}${$event.target.value}` : $event.target.value;
@@ -89,8 +101,12 @@ export class NgOtpInputComponent implements OnInit, AfterViewInit {
   
 
   onKeyUp($event, inputIdx) {
-    const nextInputId = this.appendKey(`otp_${inputIdx + 1}`);
-    const prevInputId = this.appendKey(`otp_${inputIdx - 1}`);
+    if(KeyboardUtil.ifTab($event)){
+      inputIdx-=1;
+    }
+    const nextInputId = this.getBoxId(inputIdx + 1);
+    const prevInputId = this.getBoxId(inputIdx - 1);
+    const currentInputId = this.getBoxId(inputIdx);
     if (KeyboardUtil.ifRightArrow($event)) {
       $event.preventDefault();
       this.setSelected(nextInputId);
@@ -101,8 +117,13 @@ export class NgOtpInputComponent implements OnInit, AfterViewInit {
       this.setSelected(prevInputId);
       return;
     }
-    if (KeyboardUtil.ifBackspaceOrDelete($event) && !$event.target.value) {
-      this.setSelected(prevInputId);
+    if (KeyboardUtil.ifDelete($event)) {
+      if(!$event.target.value){
+        this.clearInput(prevInputId,inputIdx-1);
+        this.setSelected(prevInputId);
+      }else{
+        this.clearInput(currentInputId,inputIdx);
+      }
       this.rebuildValue();
       return;
     }
@@ -121,11 +142,20 @@ export class NgOtpInputComponent implements OnInit, AfterViewInit {
     return val && /^\d*\.?\d*$/.test(val);
   }
 
-  appendKey(id) {
-    return `${id}_${this.componentKey}`;
+  getBoxId(idx:string | number){
+    return `otp_${idx}_${this.componentKey}`;
   }
 
-  setSelected(eleId) {
+ private clearInput(eleId:string,inputIdx){
+    let ctrlName=this.getControlName(inputIdx);
+    this.otpForm.controls[ctrlName]?.setValue(null);
+    const ele=document.getElementById(eleId);
+    if(ele && ele instanceof HTMLInputElement){
+      ele.value=null;
+    }
+  }
+
+ private setSelected(eleId) {
     this.focusTo(eleId);
     const ele: any = document.getElementById(eleId);
     if (ele && ele.setSelectionRange) {
@@ -135,14 +165,12 @@ export class NgOtpInputComponent implements OnInit, AfterViewInit {
     }
   }
 
-  ifValidKeyCode(event) {
+ private ifValidKeyCode(event) {
     const inp = event.key;
     const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
     return (
       isMobile ||
-      /[a-zA-Z0-9-_]/.test(inp) ||
-      (this.config.allowKeyCodes &&
-        this.config.allowKeyCodes.includes(event.keyCode)) 
+      /[a-zA-Z0-9-_]/.test(inp)
     );
   }
 
@@ -180,7 +208,7 @@ export class NgOtpInputComponent implements OnInit, AfterViewInit {
      this.rebuildValue();
   }
 
-  rebuildValue() {
+private rebuildValue() {
     let val = '';
     this.keysPipe.transform(this.otpForm.controls).forEach(k => {
       if (this.otpForm.controls[k].value) {

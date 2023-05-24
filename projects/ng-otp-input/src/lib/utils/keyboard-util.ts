@@ -1,7 +1,12 @@
 export class KeyboardUtil{
-
-    static ifBackspaceOrDelete(event:KeyboardEvent){
-        return this.ifKey(event,'Backspace;Delete;Del');
+    static ifTab(event:KeyboardEvent){
+        return this.ifKey(event,'Tab');
+    }
+    static ifDelete(event:KeyboardEvent){
+        return this.ifKey(event,'Delete;Del');
+    }
+    static ifBackspace(event:KeyboardEvent){
+        return this.ifKey(event,'Backspace');
     }
     static ifRightArrow(event:KeyboardEvent){
         return this.ifKey(event,'ArrowRight;Right')

@@ -4,11 +4,12 @@
     "baseUrl": "./",
     "outDir": "./dist/out-tsc",
     "sourceMap": true,
+    "skipLibCheck": true,
     "declaration": false,
     "module": "es2015",
     "moduleResolution": "node",
     "experimentalDecorators": true,
-    "target": "es5",
+    "target": "ES2022",
     "typeRoots": [
       "node_modules/@types"
     ],
@@ -23,6 +24,7 @@
       "l-ng-otp-input/*": [
         "dist/l-ng-otp-input-repo/*"
       ]
-    }
+    },
+    "useDefineForClassFields": false
   }
 }
