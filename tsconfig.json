@@ -8,7 +8,7 @@
     "module": "es2015",
     "moduleResolution": "node",
     "experimentalDecorators": true,
-    "target": "es2020",
+    "target": "ES2022",
     "typeRoots": [
       "node_modules/@types"
     ],
@@ -23,6 +23,7 @@
       "l-ng-otp-input/*": [
         "dist/l-ng-otp-input-repo/*"
       ]
-    }
+    },
+    "useDefineForClassFields": false
   }
 }
