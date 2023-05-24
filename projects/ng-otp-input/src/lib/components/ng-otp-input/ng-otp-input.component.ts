@@ -89,6 +89,9 @@ export class NgOtpInputComponent implements OnInit, AfterViewInit {
   
 
   onKeyUp($event, inputIdx) {
+    if(KeyboardUtil.ifTab($event)){
+      inputIdx-=1;
+    }
     const nextInputId = this.appendKey(`otp_${inputIdx + 1}`);
     const prevInputId = this.appendKey(`otp_${inputIdx - 1}`);
     if (KeyboardUtil.ifRightArrow($event)) {
