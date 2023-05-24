@@ -72,10 +72,22 @@ export class NgOtpInputComponent implements OnInit, AfterViewInit {
   }
 
   onKeyDown($event, inputIdx){
+    const prevInputId = this.appendKey(`otp_${inputIdx - 1}`);
+    const currentInputId = this.appendKey(`otp_${inputIdx}`);
     if (KeyboardUtil.ifSpacebar($event)) {
       $event.preventDefault();
       return false;
      }
+     if (KeyboardUtil.ifBackspace($event)) {
+      if(!$event.target.value){
+        this.clearInput(prevInputId,inputIdx-1);
+        this.setSelected(prevInputId);
+      }else{
+        this.clearInput(currentInputId,inputIdx);
+      }
+      this.rebuildValue();
+      return;
+    }
   }
   onInput($event){
     let newVal=this.currentVal ? `${this.currentVal}${$event.target.value}` : $event.target.value;
@@ -94,6 +106,7 @@ export class NgOtpInputComponent implements OnInit, AfterViewInit {
     }
     const nextInputId = this.appendKey(`otp_${inputIdx + 1}`);
     const prevInputId = this.appendKey(`otp_${inputIdx - 1}`);
+    const currentInputId = this.appendKey(`otp_${inputIdx}`);
     if (KeyboardUtil.ifRightArrow($event)) {
       $event.preventDefault();
       this.setSelected(nextInputId);
@@ -104,8 +117,13 @@ export class NgOtpInputComponent implements OnInit, AfterViewInit {
       this.setSelected(prevInputId);
       return;
     }
-    if (KeyboardUtil.ifBackspaceOrDelete($event) && !$event.target.value) {
-      this.setSelected(prevInputId);
+    if (KeyboardUtil.ifDelete($event)) {
+      if(!$event.target.value){
+        this.clearInput(prevInputId,inputIdx-1);
+        this.setSelected(prevInputId);
+      }else{
+        this.clearInput(currentInputId,inputIdx);
+      }
       this.rebuildValue();
       return;
     }
@@ -126,6 +144,15 @@ export class NgOtpInputComponent implements OnInit, AfterViewInit {
 
   appendKey(id) {
     return `${id}_${this.componentKey}`;
+  }
+
+  clearInput(eleId:string,inputIdx){
+    let ctrlName=this.getControlName(inputIdx);
+    this.otpForm.controls[ctrlName]?.setValue(null);
+    const ele=document.getElementById(eleId);
+    if(ele && ele instanceof HTMLInputElement){
+      ele.value=null;
+    }
   }
 
   setSelected(eleId) {
