@@ -9,6 +9,7 @@ import { NgOtpInputComponent, NgOtpInputConfig } from 'ng-otp-input';
 export class AppComponent {
   otp: string;
   showOtpComponent = true;
+  focusToFirstElementAfterValueUpdate:boolean=false;
   @ViewChild(NgOtpInputComponent, { static: false}) ngOtpInput:NgOtpInputComponent;
   config :NgOtpInputConfig = {
     allowNumbersOnly: false,
@@ -23,6 +24,10 @@ export class AppComponent {
 
   setVal(val) {
     this.ngOtpInput.setValue(val);
+    if(this.focusToFirstElementAfterValueUpdate){
+      let eleId=this.ngOtpInput.getBoxId(0);
+      this.ngOtpInput.focusTo(eleId);
+    }
   }
 
   toggleDisable(){
