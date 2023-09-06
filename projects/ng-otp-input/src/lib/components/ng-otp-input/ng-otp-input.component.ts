@@ -4,12 +4,14 @@ import {
   Input,
   Output,
   EventEmitter,
-  AfterViewInit
+  AfterViewInit,
+  Inject
 } from '@angular/core';
 import { FormGroup, FormControl } from '@angular/forms';
 import { KeysPipe } from '../../pipes/keys.pipe';
 import { Config } from '../../models/config';
 import { KeyboardUtil } from '../../utils/keyboard-util';
+import { DOCUMENT } from '@angular/common';
 @Component({
   // tslint:disable-next-line: component-selector
   selector: 'ng-otp-input',
@@ -35,7 +37,7 @@ export class NgOtpInputComponent implements OnInit, AfterViewInit {
       ? 'tel'
       : 'text';
   }
-  constructor(private keysPipe: KeysPipe) {}
+  constructor(private keysPipe: KeysPipe,@Inject(DOCUMENT) private document: Document) {}
 
   ngOnInit() {
     this.otpForm = new FormGroup({});
@@ -58,7 +60,7 @@ export class NgOtpInputComponent implements OnInit, AfterViewInit {
 
   ngAfterViewInit(): void {
     if (!this.config.disableAutoFocus) {
-      const containerItem = document.getElementById(`c_${this.componentKey}`);
+      const containerItem = this.document.getElementById(`c_${this.componentKey}`);
       if (containerItem) {
         const ele: any = containerItem.getElementsByClassName('otp-input')[0];
         if (ele && ele.focus) {
@@ -139,7 +141,7 @@ export class NgOtpInputComponent implements OnInit, AfterViewInit {
   }
 
   validateNumber(val){
-    return val && /^\d*\.?\d*$/.test(val);
+    return val && /^[0-9]+$/.test(val);
   }
 
   getBoxId(idx:string | number){
@@ -149,7 +151,7 @@ export class NgOtpInputComponent implements OnInit, AfterViewInit {
  private clearInput(eleId:string,inputIdx){
     let ctrlName=this.getControlName(inputIdx);
     this.otpForm.controls[ctrlName]?.setValue(null);
-    const ele=document.getElementById(eleId);
+    const ele=this.document.getElementById(eleId);
     if(ele && ele instanceof HTMLInputElement){
       ele.value=null;
     }
@@ -157,7 +159,7 @@ export class NgOtpInputComponent implements OnInit, AfterViewInit {
 
  private setSelected(eleId) {
     this.focusTo(eleId);
-    const ele: any = document.getElementById(eleId);
+    const ele: any = this.document.getElementById(eleId);
     if (ele && ele.setSelectionRange) {
       setTimeout(() => {
         ele.setSelectionRange(0, 1);
@@ -175,7 +177,7 @@ export class NgOtpInputComponent implements OnInit, AfterViewInit {
   }
 
   focusTo(eleId) {
-    const ele: any = document.getElementById(eleId);
+    const ele: any = this.document.getElementById(eleId);
     if (ele) {
       ele.focus();
     }
@@ -198,7 +200,7 @@ export class NgOtpInputComponent implements OnInit, AfterViewInit {
           }
      });
      if (!this.config.disableAutoFocus) {
-      const containerItem = document.getElementById(`c_${this.componentKey}`);
+      const containerItem = this.document.getElementById(`c_${this.componentKey}`);
       var indexOfElementToFocus = value.length < this.config.length ? value.length : (this.config.length - 1);
       let ele : any = containerItem.getElementsByClassName('otp-input')[indexOfElementToFocus];
       if (ele && ele.focus) {
