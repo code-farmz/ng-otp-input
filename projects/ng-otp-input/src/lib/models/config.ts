@@ -1,6 +1,8 @@
+import { NgStyle } from '@angular/common';
+
 export class Config {
-  inputStyles?: { [key: string]: any };
-  containerStyles?: { [key: string]: any };
+  inputStyles?: NgStyle;
+  containerStyles?: NgStyle;
   length: number;
   allowNumbersOnly?: boolean;
   inputClass?: string;

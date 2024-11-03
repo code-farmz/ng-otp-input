@@ -6,7 +6,7 @@
     "sourceMap": true,
     "skipLibCheck": true,
     "declaration": false,
-    "module": "es2015",
+    "module": "ES2022",
     "moduleResolution": "node",
     "experimentalDecorators": true,
     "target": "ES2022",
@@ -18,11 +18,11 @@
       "dom"
     ],
     "paths": {
-      "l-ng-otp-input": [
-        "dist/l-ng-otp-input-repo"
+      "ng-otp-input": [
+        "./projects/ng-otp-input"
       ],
-      "l-ng-otp-input/*": [
-        "dist/l-ng-otp-input-repo/*"
+      "ng-otp-input/*": [
+        "./projects/ng-otp-input/*"
       ]
     },
     "useDefineForClassFields": false

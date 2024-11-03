@@ -1,5 +1,6 @@
+/* To learn more about this file see: https://angular.io/config/tsconfig. */
 {
-  "extends": "../../tsconfig.json",
+  "extends": "./tsconfig.json",
   "compilerOptions": {
     "outDir": "../../out-tsc/spec",
     "types": [
@@ -8,10 +9,12 @@
     ]
   },
   "files": [
-    "src/test.ts"
+    "../../karma.test.ts"
   ],
   "include": [
-    "**/*.spec.ts",
-    "**/*.d.ts"
+    "**/*.spec.ts"
+  ],
+  "exclude": [
+    "**/*.cy.ts"
   ]
 }

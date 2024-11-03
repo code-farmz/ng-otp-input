@@ -9,23 +9,23 @@ import { NgOtpInputComponent, NgOtpInputConfig } from 'ng-otp-input';
 export class AppComponent {
   otp: string;
   showOtpComponent = true;
-  focusToFirstElementAfterValueUpdate:boolean=false;
+  focusToFirstElementAfterValueUpdate=false;
   @ViewChild(NgOtpInputComponent, { static: false}) ngOtpInput:NgOtpInputComponent;
-  config :NgOtpInputConfig = {
+  config: NgOtpInputConfig = {
     allowNumbersOnly: false,
     length: 5,
     isPasswordInput: false,
     disableAutoFocus: false,
     placeholder: ''
   };
-  onOtpChange(otp) {
+  onOtpChange(otp: string) {
     this.otp = otp;
   }
 
-  setVal(val) {
+  setVal(val: string) {
     this.ngOtpInput.setValue(val);
     if(this.focusToFirstElementAfterValueUpdate){
-      let eleId=this.ngOtpInput.getBoxId(0);
+      const eleId=this.ngOtpInput.getBoxId(0);
       this.ngOtpInput.focusTo(eleId);
     }
   }

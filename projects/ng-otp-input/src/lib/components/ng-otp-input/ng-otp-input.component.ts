@@ -13,14 +13,13 @@ import { Config } from '../../models/config';
 import { KeyboardUtil } from '../../utils/keyboard-util';
 import { DOCUMENT } from '@angular/common';
 @Component({
-  // tslint:disable-next-line: component-selector
   selector: 'ng-otp-input',
   templateUrl: './ng-otp-input.component.html',
   styleUrls: ['./ng-otp-input.component.scss']
 })
 export class NgOtpInputComponent implements OnInit, AfterViewInit {
   @Input() config: Config = { length: 4 };
-  // tslint:disable-next-line: no-output-on-prefix
+  // eslint-disable-next-line @angular-eslint/no-output-on-prefix
   @Output() onInputChange = new EventEmitter<string>();
   @Input() formCtrl:FormControl;
   otpForm: FormGroup;
@@ -30,23 +29,25 @@ export class NgOtpInputComponent implements OnInit, AfterViewInit {
     Math.random()
       .toString(36)
       .substring(2) + new Date().getTime().toString(36);
-  get inputType(){
-    return this.config?.isPasswordInput 
-    ? 'password' 
-    : this.config?.allowNumbersOnly 
-      ? 'tel'
-      : 'text';
-  }
+
   constructor(private keysPipe: KeysPipe,@Inject(DOCUMENT) private document: Document) {}
+
+  get inputType(){
+    return this.config?.isPasswordInput
+      ? 'password'
+      : this.config?.allowNumbersOnly
+        ? 'tel'
+        : 'text';
+  }
 
   ngOnInit() {
     this.otpForm = new FormGroup({});
     for (let index = 0; index < this.config.length; index++) {
       this.otpForm.addControl(this.getControlName(index), new FormControl());
     }
-    this.otpForm.valueChanges.subscribe((v:object)=>{
+    this.otpForm.valueChanges.subscribe(()=>{
       this.keysPipe.transform(this.otpForm.controls).forEach((k) => {
-        var val = this.otpForm.controls[k].value;
+        const val = this.otpForm.controls[k].value;
         if(val && val.length>1){
           if (val.length >= this.config.length) {
             this.setValue(val);
@@ -62,18 +63,15 @@ export class NgOtpInputComponent implements OnInit, AfterViewInit {
     if (!this.config.disableAutoFocus) {
       const containerItem = this.document.getElementById(`c_${this.componentKey}`);
       if (containerItem) {
-        const ele: any = containerItem.getElementsByClassName('otp-input')[0];
-        if (ele && ele.focus) {
+        const ele  = containerItem.getElementsByClassName('otp-input')[0] as HTMLElement;
+        if (ele?.focus) {
           ele.focus();
         }
       }
     }
   }
-  private getControlName(idx) {
-    return `ctrl_${idx}`;
-  }
 
-  onKeyDown($event, inputIdx){
+  onKeyDown($event: KeyboardEvent, inputIdx: number){
     const prevInputId = this.getBoxId(inputIdx - 1);
     const currentInputId = this.getBoxId(inputIdx);
     if (KeyboardUtil.ifSpacebar($event)) {
@@ -81,7 +79,7 @@ export class NgOtpInputComponent implements OnInit, AfterViewInit {
       return false;
      }
      if (KeyboardUtil.ifBackspace($event)) {
-      if(!$event.target.value){
+      if(!($event.target as HTMLInputElement).value){
         this.clearInput(prevInputId,inputIdx-1);
         this.setSelected(prevInputId);
       }else{
@@ -92,7 +90,7 @@ export class NgOtpInputComponent implements OnInit, AfterViewInit {
     }
   }
   onInput($event){
-    let newVal=this.currentVal ? `${this.currentVal}${$event.target.value}` : $event.target.value;
+    const newVal=this.currentVal ? `${this.currentVal}${$event.target.value}` : $event.target.value;
     if(this.config.allowNumbersOnly && !this.validateNumber(newVal)){
       $event.target.value='';
       $event.stopPropagation();
@@ -100,7 +98,6 @@ export class NgOtpInputComponent implements OnInit, AfterViewInit {
       return;
     }
   }
-  
 
   onKeyUp($event, inputIdx) {
     if(KeyboardUtil.ifTab($event)){
@@ -129,11 +126,11 @@ export class NgOtpInputComponent implements OnInit, AfterViewInit {
       this.rebuildValue();
       return;
     }
-    
+
     if (!$event.target.value) {
       return;
     }
-  
+
     if (this.ifValidKeyCode($event)) {
       this.setSelected(nextInputId);
     }
@@ -148,44 +145,16 @@ export class NgOtpInputComponent implements OnInit, AfterViewInit {
     return `otp_${idx}_${this.componentKey}`;
   }
 
- private clearInput(eleId:string,inputIdx){
-    let ctrlName=this.getControlName(inputIdx);
-    this.otpForm.controls[ctrlName]?.setValue(null);
-    const ele=this.document.getElementById(eleId);
-    if(ele && ele instanceof HTMLInputElement){
-      ele.value=null;
-    }
-  }
-
- private setSelected(eleId) {
-    this.focusTo(eleId);
-    const ele: any = this.document.getElementById(eleId);
-    if (ele && ele.setSelectionRange) {
-      setTimeout(() => {
-        ele.setSelectionRange(0, 1);
-      }, 0);
-    }
-  }
-
- private ifValidKeyCode(event) {
-    const inp = event.key;
-    const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
-    return (
-      isMobile ||
-      /[a-zA-Z0-9-_]/.test(inp)
-    );
-  }
-
-  focusTo(eleId) {
-    const ele: any = this.document.getElementById(eleId);
+  focusTo(eleId: string) {
+    const ele = this.document.getElementById(eleId);
     if (ele) {
       ele.focus();
     }
   }
 
   // method to set component value
-  setValue(value: any) {
-    if (this.config.allowNumbersOnly && isNaN(value)) {
+  setValue(value: string | number) {
+    if (this.config.allowNumbersOnly && isNaN((value as number))) {
         return;
     }
     this.otpForm.reset();
@@ -201,8 +170,8 @@ export class NgOtpInputComponent implements OnInit, AfterViewInit {
      });
      if (!this.config.disableAutoFocus) {
       const containerItem = this.document.getElementById(`c_${this.componentKey}`);
-      var indexOfElementToFocus = value.length < this.config.length ? value.length : (this.config.length - 1);
-      let ele : any = containerItem.getElementsByClassName('otp-input')[indexOfElementToFocus];
+      const indexOfElementToFocus = value.length < this.config.length ? value.length : (this.config.length - 1);
+      const ele = containerItem.getElementsByClassName('otp-input')[indexOfElementToFocus] as HTMLElement;
       if (ele && ele.focus) {
         ele.focus();
       }
@@ -210,23 +179,38 @@ export class NgOtpInputComponent implements OnInit, AfterViewInit {
      this.rebuildValue();
   }
 
-private rebuildValue() {
+  handlePaste(e) {
+    // Get pasted data via clipboard API
+    const clipboardData = e.clipboardData || window['clipboardData'];
+    let pastedData: string = null;
+    if(clipboardData){
+      pastedData = clipboardData.getData('Text');
+    }
+    // Stop data actually being pasted into div
+    e.stopPropagation();
+    e.preventDefault();
+    if (!pastedData || (this.config.allowNumbersOnly && !this.validateNumber(pastedData))) {
+      return;
+    }
+    this.setValue(pastedData);
+  }
+
+  private rebuildValue() {
     let val = '';
     this.keysPipe.transform(this.otpForm.controls).forEach(k => {
       if (this.otpForm.controls[k].value) {
         let ctrlVal=this.otpForm.controls[k].value;
-        let isLengthExceed=ctrlVal.length>1;
-        let isCaseTransformEnabled= !this.config.allowNumbersOnly && this.config.letterCase && (this.config.letterCase.toLocaleLowerCase() == 'upper' || this.config.letterCase.toLocaleLowerCase()== 'lower');
+        const isLengthExceed=ctrlVal.length>1;
+        let isCaseTransformEnabled= !this.config.allowNumbersOnly && this.config.letterCase && (this.config.letterCase.toLocaleLowerCase() === 'upper' || this.config.letterCase.toLocaleLowerCase() === 'lower');
         ctrlVal=ctrlVal[0];
-        let transformedVal=isCaseTransformEnabled ? this.config.letterCase.toLocaleLowerCase() == 'upper' ? ctrlVal.toUpperCase() : ctrlVal.toLowerCase()  : ctrlVal;
-        if(isCaseTransformEnabled && transformedVal == ctrlVal){
+        const transformedVal=isCaseTransformEnabled ? this.config.letterCase.toLocaleLowerCase() === 'upper' ? ctrlVal.toUpperCase() : ctrlVal.toLowerCase()  : ctrlVal;
+        if(isCaseTransformEnabled && transformedVal === ctrlVal){
           isCaseTransformEnabled=false;
         }else{
           ctrlVal=transformedVal;
         }
         val += ctrlVal;
-        if(isLengthExceed || isCaseTransformEnabled) 
-        {
+        if(isLengthExceed || isCaseTransformEnabled) {
          this.otpForm.controls[k].setValue(ctrlVal);
         }
       }
@@ -237,20 +221,37 @@ private rebuildValue() {
     this.onInputChange.emit(val);
     this.currentVal=val;
   }
-  
-  
-  handlePaste(e) {
-    // Get pasted data via clipboard API
-    let clipboardData = e.clipboardData || window['clipboardData'];
-    if(clipboardData){
-     var pastedData =clipboardData.getData('Text');
-    }
-    // Stop data actually being pasted into div
-    e.stopPropagation();
-    e.preventDefault();
-    if (!pastedData || (this.config.allowNumbersOnly && !this.validateNumber(pastedData))) {
-      return;
-    }
-    this.setValue(pastedData);
+
+  private getControlName(idx) {
+    return `ctrl_${idx}`;
   }
+
+  private clearInput(eleId:string,inputIdx){
+    const ctrlName=this.getControlName(inputIdx);
+    this.otpForm.controls[ctrlName]?.setValue(null);
+    const ele=this.document.getElementById(eleId);
+    if(ele && ele instanceof HTMLInputElement){
+      ele.value=null;
+    }
+  }
+
+  private setSelected(eleId) {
+    this.focusTo(eleId);
+    const ele = this.document.getElementById(eleId) as HTMLInputElement;
+    if (ele && ele.setSelectionRange) {
+      setTimeout(() => {
+        ele.setSelectionRange(0, 1);
+      }, 0);
+    }
+  }
+
+  private ifValidKeyCode(event) {
+    const inp = event.key;
+    const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+    return (
+      isMobile ||
+      /[a-zA-Z0-9-_]/.test(inp)
+    );
+  }
+
 }

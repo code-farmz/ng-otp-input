@@ -1,4 +1,7 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
+
+import { KeysPipe } from 'ng-otp-input/src/lib/pipes/keys.pipe';
+import { ReactiveFormsModule } from '@angular/forms';
 
 import { NgOtpInputComponent } from './ng-otp-input.component';
 
@@ -6,11 +9,13 @@ describe('NgOtpInputComponent', () => {
   let component: NgOtpInputComponent;
   let fixture: ComponentFixture<NgOtpInputComponent>;
 
-  beforeEach(async(() => {
+  beforeEach((() => {
     TestBed.configureTestingModule({
-      declarations: [ NgOtpInputComponent ]
-    })
-    .compileComponents();
+        declarations: [NgOtpInputComponent, KeysPipe],
+        providers: [KeysPipe],
+        imports: [ReactiveFormsModule]
+      })
+      .compileComponents();
   }));
 
   beforeEach(() => {
