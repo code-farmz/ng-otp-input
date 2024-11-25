@@ -68,18 +68,18 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "browserTarget": "ng-otp-input-repo:build"
+            "buildTarget": "ng-otp-input-repo:build"
           },
           "configurations": {
             "production": {
-              "browserTarget": "ng-otp-input-repo:build:production"
+              "buildTarget": "ng-otp-input-repo:build:production"
             }
           }
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "ng-otp-input-repo:build"
+            "buildTarget": "ng-otp-input-repo:build"
           }
         },
         "test": {
