@@ -8,11 +8,23 @@
 }
 
 .ng-otp-input-wrapper {
-    .otp-input:not(:last-child) {
-        margin-right: 8px;
+    .otp-input {
+        margin: 0 0.51rem;
+    }
+    .otp-input:first-child {
+        margin-left: 0;
+    }
+    .otp-input:last-child {
+        margin-right: 0;
     }
 }
-
+.n-o-c{
+    display: flex;
+    align-items: center;
+}
+.error-input{
+    border-color: red;
+}
 @media screen and (max-width:767px) {
     .otp-input {
         width: 40px;

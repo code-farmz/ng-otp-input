@@ -1,10 +1,14 @@
+import { NgIf } from '@angular/common';
 import { Component, ViewChild } from '@angular/core';
-import { NgOtpInputComponent, NgOtpInputConfig } from 'ng-otp-input';
+import { FormsModule } from '@angular/forms';
+import { NgOtpInputComponent, NgOtpInputConfig, NgOtpInputModule } from 'projects/ng-otp-input/src/public_api';
 
 @Component({
-  selector: 'app-root',
-  templateUrl: './app.component.html',
-  styleUrls: ['./app.component.scss']
+    selector: 'app-root',
+    templateUrl: './app.component.html',
+    styleUrls: ['./app.component.scss'],
+    standalone: true,
+    imports:[NgOtpInputModule,FormsModule,NgIf]
 })
 export class AppComponent {
   otp: string;
@@ -16,9 +20,11 @@ export class AppComponent {
     length: 5,
     isPasswordInput: false,
     disableAutoFocus: false,
-    placeholder: ''
+    placeholder: '',
+    separator:'-'
   };
   onOtpChange(otp) {
+    console.log(otp);
     this.otp = otp;
   }
 

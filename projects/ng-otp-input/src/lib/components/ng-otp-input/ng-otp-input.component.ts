@@ -3,26 +3,32 @@ import {
   OnInit,
   Input,
   Output,
-  EventEmitter,
   AfterViewInit,
-  Inject
+  Inject,
+  HostBinding,
+  HostListener
 } from '@angular/core';
-import { FormGroup, FormControl } from '@angular/forms';
-import { KeysPipe } from '../../pipes/keys.pipe';
+import { FormGroup, FormControl, ReactiveFormsModule } from '@angular/forms';
 import { Config } from '../../models/config';
 import { KeyboardUtil } from '../../utils/keyboard-util';
-import { DOCUMENT } from '@angular/common';
+import { DOCUMENT, NgClass, NgFor, NgIf, NgStyle } from '@angular/common';
+import { Subject } from 'rxjs';
+import { debounceTime, takeUntil } from 'rxjs/operators';
+import { ObjectUtil } from '../../utils/object-util';
+import { OnDestroy } from '@angular/core';
 @Component({
   // tslint:disable-next-line: component-selector
-  selector: 'ng-otp-input',
+  selector: 'ng-otp-input, ngx-otp-input',
   templateUrl: './ng-otp-input.component.html',
-  styleUrls: ['./ng-otp-input.component.scss']
+  styleUrls: ['./ng-otp-input.component.scss'],
+  imports:[ReactiveFormsModule,NgIf,NgFor,NgStyle,NgClass],
+  standalone:true
 })
-export class NgOtpInputComponent implements OnInit, AfterViewInit {
+export class NgOtpInputComponent implements OnInit, AfterViewInit,OnDestroy {
   @Input() config: Config = { length: 4 };
-  // tslint:disable-next-line: no-output-on-prefix
-  @Output() onInputChange = new EventEmitter<string>();
+  @Output() onInputChange = new Subject<string>();
   @Input() formCtrl:FormControl;
+  @Output() onBlur = new Subject<void>();
   otpForm: FormGroup;
   currentVal:string;
   inputControls: FormControl[] = new Array(this.config.length);
@@ -37,15 +43,18 @@ export class NgOtpInputComponent implements OnInit, AfterViewInit {
       ? 'tel'
       : 'text';
   }
-  constructor(private keysPipe: KeysPipe,@Inject(DOCUMENT) private document: Document) {}
+  get controlKeys(){ return ObjectUtil.keys(this.otpForm?.controls)};
+  private destroy$ = new Subject<void>();
+  private activeFocusCount = 0;
+  constructor(@Inject(DOCUMENT) private document: Document) {}
 
   ngOnInit() {
     this.otpForm = new FormGroup({});
     for (let index = 0; index < this.config.length; index++) {
       this.otpForm.addControl(this.getControlName(index), new FormControl());
     }
-    this.otpForm.valueChanges.subscribe((v:object)=>{
-      this.keysPipe.transform(this.otpForm.controls).forEach((k) => {
+    this.otpForm.valueChanges.pipe(takeUntil(this.destroy$)).subscribe((v:object)=>{
+      ObjectUtil.keys(this.otpForm.controls).forEach((k) => {
         var val = this.otpForm.controls[k].value;
         if(val && val.length>1){
           if (val.length >= this.config.length) {
@@ -56,6 +65,19 @@ export class NgOtpInputComponent implements OnInit, AfterViewInit {
         }
       });
     });
+  }
+
+  onFocusIn() {
+    this.activeFocusCount++;
+  }
+
+  onFocusOut() {
+    setTimeout(() => {
+      this.activeFocusCount--;
+      if (this.activeFocusCount === 0) {
+        this.onBlur.next();
+      }
+    }, 0);
   }
 
   ngAfterViewInit(): void {
@@ -76,6 +98,7 @@ export class NgOtpInputComponent implements OnInit, AfterViewInit {
   onKeyDown($event, inputIdx){
     const prevInputId = this.getBoxId(inputIdx - 1);
     const currentInputId = this.getBoxId(inputIdx);
+    const nextInputId = this.getBoxId(inputIdx + 1);
     if (KeyboardUtil.ifSpacebar($event)) {
       $event.preventDefault();
       return false;
@@ -90,13 +113,30 @@ export class NgOtpInputComponent implements OnInit, AfterViewInit {
       this.rebuildValue();
       return;
     }
+    if (KeyboardUtil.ifDelete($event)) {
+      if(!$event.target.value){
+        this.clearInput(prevInputId,inputIdx-1);
+        this.setSelected(prevInputId);
+      }else{
+        this.clearInput(currentInputId,inputIdx);
+      }
+      this.rebuildValue();
+      return;
+    }
+    if (this.ifValidKeyCode($event)) {
+      setTimeout(() => {
+        this.setSelected(nextInputId);
+       this.rebuildValue();
+      }, 0);
+    }
   }
-  onInput($event){
+  onInput($event,inputIdx){
     let newVal=this.currentVal ? `${this.currentVal}${$event.target.value}` : $event.target.value;
     if(this.config.allowNumbersOnly && !this.validateNumber(newVal)){
-      $event.target.value='';
+      $event.target.value=null;
       $event.stopPropagation();
       $event.preventDefault();
+      this.clearInput(null,inputIdx);
       return;
     }
   }
@@ -108,7 +148,6 @@ export class NgOtpInputComponent implements OnInit, AfterViewInit {
     }
     const nextInputId = this.getBoxId(inputIdx + 1);
     const prevInputId = this.getBoxId(inputIdx - 1);
-    const currentInputId = this.getBoxId(inputIdx);
     if (KeyboardUtil.ifRightArrow($event)) {
       $event.preventDefault();
       this.setSelected(nextInputId);
@@ -119,25 +158,10 @@ export class NgOtpInputComponent implements OnInit, AfterViewInit {
       this.setSelected(prevInputId);
       return;
     }
-    if (KeyboardUtil.ifDelete($event)) {
-      if(!$event.target.value){
-        this.clearInput(prevInputId,inputIdx-1);
-        this.setSelected(prevInputId);
-      }else{
-        this.clearInput(currentInputId,inputIdx);
-      }
-      this.rebuildValue();
-      return;
-    }
     
     if (!$event.target.value) {
       return;
     }
-  
-    if (this.ifValidKeyCode($event)) {
-      this.setSelected(nextInputId);
-    }
-    this.rebuildValue();
   }
 
   validateNumber(val){
@@ -151,9 +175,11 @@ export class NgOtpInputComponent implements OnInit, AfterViewInit {
  private clearInput(eleId:string,inputIdx){
     let ctrlName=this.getControlName(inputIdx);
     this.otpForm.controls[ctrlName]?.setValue(null);
-    const ele=this.document.getElementById(eleId);
-    if(ele && ele instanceof HTMLInputElement){
-      ele.value=null;
+    if(eleId){
+      const ele=this.document.getElementById(eleId);
+      if(ele && ele instanceof HTMLInputElement){
+        ele.value=null;
+      }
     }
   }
 
@@ -172,7 +198,7 @@ export class NgOtpInputComponent implements OnInit, AfterViewInit {
     const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
     return (
       isMobile ||
-      /[a-zA-Z0-9-_]/.test(inp)
+      (/^[a-zA-Z0-9%*_\-@#$!]$/.test(inp) && inp.length==1)
     );
   }
 
@@ -204,17 +230,19 @@ export class NgOtpInputComponent implements OnInit, AfterViewInit {
       var indexOfElementToFocus = value.length < this.config.length ? value.length : (this.config.length - 1);
       let ele : any = containerItem.getElementsByClassName('otp-input')[indexOfElementToFocus];
       if (ele && ele.focus) {
-        ele.focus();
+        setTimeout(() => {
+          ele.focus();
+        }, 1);
       }
      }
      this.rebuildValue();
   }
 
 private rebuildValue() {
-    let val = '';
-    this.keysPipe.transform(this.otpForm.controls).forEach(k => {
-      if (this.otpForm.controls[k].value) {
-        let ctrlVal=this.otpForm.controls[k].value;
+    let val = null;
+    ObjectUtil.keys(this.otpForm.controls).forEach(k => {
+      let ctrlVal=this.otpForm.controls[k].value;
+      if (ctrlVal) {
         let isLengthExceed=ctrlVal.length>1;
         let isCaseTransformEnabled= !this.config.allowNumbersOnly && this.config.letterCase && (this.config.letterCase.toLocaleLowerCase() == 'upper' || this.config.letterCase.toLocaleLowerCase()== 'lower');
         ctrlVal=ctrlVal[0];
@@ -224,17 +252,24 @@ private rebuildValue() {
         }else{
           ctrlVal=transformedVal;
         }
-        val += ctrlVal;
+        if(val == null)
+        {
+          val=ctrlVal;
+        }else{
+          val += ctrlVal;
+        }
         if(isLengthExceed || isCaseTransformEnabled) 
         {
          this.otpForm.controls[k].setValue(ctrlVal);
         }
       }
     });
-    if(this.formCtrl?.setValue){
-      this.formCtrl.setValue(val);
+    if(this.currentVal != val){
+      if(this.formCtrl?.setValue){
+        this.formCtrl.setValue(val);
+      }
+      this.onInputChange.next(val);
     }
-    this.onInputChange.emit(val);
     this.currentVal=val;
   }
   
@@ -245,7 +280,6 @@ private rebuildValue() {
     if(clipboardData){
      var pastedData =clipboardData.getData('Text');
     }
-    // Stop data actually being pasted into div
     e.stopPropagation();
     e.preventDefault();
     if (!pastedData || (this.config.allowNumbersOnly && !this.validateNumber(pastedData))) {
@@ -253,4 +287,10 @@ private rebuildValue() {
     }
     this.setValue(pastedData);
   }
+  ngOnDestroy() {
+    this.destroy$.next();
+    this.destroy$.complete();
+  }
 }
+
+

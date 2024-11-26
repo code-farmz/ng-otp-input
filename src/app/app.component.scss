@@ -89,7 +89,7 @@
 
 .sidebar {
   width: 250px;
-  height: 100vh;
+  min-height: 100vh;
   display: inline-block;
   box-shadow: 0 1px 3px 0 #d4d4d5, 0 0 0 1px #d4d4d5;
 }

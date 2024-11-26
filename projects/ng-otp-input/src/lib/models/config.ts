@@ -9,4 +9,6 @@ export class Config {
   disableAutoFocus?: boolean;
   placeholder?: string;
   letterCase?: "Upper" | "Lower";
+  separator?:string;
+  showError?:boolean;
 }

@@ -36,6 +36,10 @@
       </select>
     </li>
     <li>
+      <span class="s-t">Separator</span>
+      <input type="text" name="input-separator" [(ngModel)]="config.separator" class="f-c" maxlength="1"  (change)="onConfigChange()">
+    </li>
+    <li>
       <span class="s-t">Update value to</span>
       <input type="text" #valInput name="input-update-val" placeholder="Focus out to change" (change)="setVal(valInput.value)" class="f-c" min="1" max="10">
     <br>
@@ -53,7 +57,7 @@
     <div>
       <div class="card">
         <p class="a-o-i">Enter verification code</p>
-        <ng-otp-input  (onInputChange)="onOtpChange($event)" *ngIf="showOtpComponent" [config]="config"></ng-otp-input>
+        <ngx-otp-input  (onInputChange)="onOtpChange($event)" *ngIf="showOtpComponent" [config]="config"></ngx-otp-input>
         <span  class="o-t-p">
           <ng-container *ngIf="otp">
             Entered otp :-{{otp}}
