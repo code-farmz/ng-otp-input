@@ -11,7 +11,7 @@
   "keywords": ["angular otp input","ng otp input","ngx otp input","angular4 otp input","angular5 otp input","angular6 otp input","angular7 otp input","angular8 otp input","angular9 otp input","angular10 otp input","angular11 otp input","angular12 otp input","otp input angular","angular otp password box","angular otp verification"],
   "license": "MIT",
   "peerDependencies": {
-    "@angular/common": "^17.0.0",
-    "@angular/core": "^17.0.0"
+    "@angular/common": "^16.0.0",
+    "@angular/core": "^16.0.0"
   }
 }

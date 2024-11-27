@@ -1,13 +1,13 @@
 import { NgIf } from '@angular/common';
 import { Component, ViewChild } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { NgOtpInputComponent, NgOtpInputConfig, NgOtpInputModule } from 'projects/ng-otp-input/src/public_api';
+import { NgOtpInputComponent, NgOtpInputConfig } from 'ng-otp-input';
 
 @Component({
     selector: 'app-root',
     templateUrl: './app.component.html',
     styleUrls: ['./app.component.scss'],
-    imports: [NgOtpInputModule, FormsModule, NgIf]
+    imports: [NgOtpInputComponent, FormsModule, NgIf]
 })
 export class AppComponent {
   otp: string;

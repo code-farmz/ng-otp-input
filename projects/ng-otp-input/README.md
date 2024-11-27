@@ -1,5 +1,6 @@
 ## ng-otp-input
-[![Npm Version](https://img.shields.io/badge/npm-v1.9.3-blue.svg)](https://www.npmjs.com/package/ng-otp-input) 
+[![npm version](https://badge.fury.io/js/ng-otp-input.svg)](https://badge.fury.io/js/ng-otp-input) [![npm](https://img.shields.io/npm/dw/ng-otp-input.svg?logo=npm)](https://www.npmjs.com/package/ng-otp-input) [![npm](https://img.shields.io/bundlephobia/minzip/ng-otp-input)](https://www.npmjs.com/package/ng-otp-input)
+
 
 A fully customizable, one-time password input component for the web built with Angular.
 
@@ -11,28 +12,39 @@ A fully customizable, one-time password input component for the web built with A
 <a href="https://stackblitz.com/github/code-farmz/ng-otp-input" target="_blank">Edit on Stackbliz</a>
 ## Installation
 
-#### For angular latest angular version(V12 and above)
+#### For angular latest angular version(V16 and above)
 
         npm install --save ng-otp-input
+
+#### For angular version(V12 till V15)
+
+        npm install --save ng-otp-input@1.9.3
     
-#### For older angular version use v1.8.1
+#### For older angular version use v1.8.1(V11 and below)
 
         npm install --save ng-otp-input@1.8.1
 
-## Usage
-Add NgOtpInputModule to imports `app.module.ts` something like
+## Breaking changes in V2
 
-    import { BrowserModule } from  '@angular/platform-browser';
-    import { NgModule } from  '@angular/core';
-    import { AppComponent } from  './app.component';
+* V2 require angular 16 or above
+* Component will now emit `null` instead of empty string if no value supplied
+## Usage
+Add NgOtpInputModule to imports `module.ts` something like
+
     import { NgOtpInputModule } from  'ng-otp-input';
-    
-        @NgModule({
-        declarations: [AppComponent],
-        imports: [ BrowserModule,
-        NgOtpInputModule],
-        bootstrap: [AppComponent]
-        })
+    @NgModule({
+    ...
+    imports: [ ...other modules,
+    NgOtpInputModule]
+    })
+
+For Standlone components you can directly import NgOtpComponent
+
+    import { NgOtpInputComponent} from 'ng-otp-input';
+    @Component({
+        ...,
+        imports: [NgOtpInputComponent]
+    })
 
 Add component to your page:
   
@@ -55,18 +67,25 @@ Add component to your page:
 <th>Description</th>
 </tr>
 <tr>
-<td>config</td>
-<td>object</td>
-<td>true</td>
-<td>{length:4}</td>
-<td>Various configuration options to customize the component</td>
-</tr>
-<tr>
 <td>onOtpChange</td>
-<td>function</td>
+<td>Output</td>
 <td>false</td>
 <td>--</td>
 <td>Function that will receive the otp.Not required if formCtrl is passed</td>
+</tr>
+<tr>
+<td>onBlur</td>
+<td>Output</td>
+<td>false</td>
+<td>--</td>
+<td>Triggered on focus out of the component</td>
+</tr>
+<tr>
+<td>setValue</td>
+<td>function</td>
+<td>false</td>
+<td>--</td>
+<td>Call setValue method of component to update component value. See example below</td>
 </tr>
 <tr>
 <td>formCtrl</td>
@@ -76,11 +95,11 @@ Add component to your page:
 <td>If there value will be set to the passed form control no need to subscribe to onOtpChange</td>
 </tr>
 <tr>
-<td>setValue</td>
-<td>function</td>
-<td>false</td>
-<td>--</td>
-<td>Call setValue method of component to update component value. See example below</td>
+<td>config</td>
+<td>object</td>
+<td>true</td>
+<td>{length:4}</td>
+<td>Various configuration options to customize the component</td>
 </tr>
 </table>
 
@@ -93,27 +112,19 @@ Add component to your page:
 <th>default</th>
 <th>Description</th>
 </tr>
-
 <tr>
-<td>length</td>
-<td>number</td>
-<td>true</td>
-<td>4</td>
-<td>Number of OTP inputs to be rendered.</td>
-</tr>
-<tr>
-<td>inputStyles</td>
-<td>object</td>
+<td>allowNumbersOnly</td>
+<td>bool</td>
 <td>false</td>
 <td>--</td>
-<td>Style applied to each input.Check https://angular.io/api/common/NgStyle for more info.</td>
+<td>set true to allow only numbers as input</td>
 </tr>
 <tr>
-<td>inputClass</td>
-<td>string</td>
+<td>disableAutoFocus</td>
+<td>bool</td>
 <td>false</td>
 <td>--</td>
-<td>Class applied to each input.</td>
+<td>First input will be auto focused on component load and to next empty input on setValue excecution.Set this flag to true to prevent this behaviour</td>
 </tr>
 <tr>
 <td>containerClass</td>
@@ -130,13 +141,20 @@ Add component to your page:
 <td>Style applied to container element.Check https://angular.io/api/common/NgStyle for more info.</td>
 </tr>
 <tr>
-<tr>
-<td>allowNumbersOnly</td>
-<td>bool</td>
+<td>inputStyles</td>
+<td>object</td>
 <td>false</td>
 <td>--</td>
-<td>set true to allow only numbers as input</td>
+<td>Style applied to each input.Check https://angular.io/api/common/NgStyle for more info.</td>
 </tr>
+<tr>
+<td>inputClass</td>
+<td>string</td>
+<td>false</td>
+<td>--</td>
+<td>Class applied to each input.</td>
+</tr>
+<tr>
 <tr>
 <td>isPasswordInput</td>
 <td>bool</td>
@@ -144,12 +162,19 @@ Add component to your page:
 <td>--</td>
 <td>set true for password type input</td>
 </tr>
+<td>length</td>
+<td>number</td>
+<td>true</td>
+<td>4</td>
+<td>Number of OTP inputs to be rendered.</td>
+</tr>
 <tr>
-<td>disableAutoFocus</td>
-<td>bool</td>
-<td>false</td>
+<tr>
+<td>letterCase</td>
+<td>string</td>
 <td>--</td>
-<td>First input will be auto focused on component load and to next empty input on setValue excecution.Set this flag to true to prevent this behaviour</td>
+<td>--</td>
+<td>Set value to Upper or Lower to change the otp to upper case or lower case</td>
 </tr>
 <tr>
 <td>placeholder</td>
@@ -159,11 +184,18 @@ Add component to your page:
 <td>input placeholder</td>
 </tr>
 <tr>
-<td>letterCase</td>
-<td>string</td>
+<td>separator</td>
+<td>char</td>
+<td>false</td>
 <td>--</td>
+<td>Separator char that will be added between inputs</td>
+</tr>
+<tr>
+<td>showError</td>
+<td>bool</td>
+<td>false</td>
 <td>--</td>
-<td>Set value to Upper or Lower to change the otp to upper case or lower case</td>
+<td>If set to true and `formCtrl` is supplied and `formCtrl` is invalid and touced/dirty class error-input will be added to all the inputs and border will trun red</td>
 </tr>
 </table>
 
