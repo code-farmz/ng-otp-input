@@ -15,12 +15,15 @@
       },
       "architect": {
         "build": {
-          "builder": "@angular-devkit/build-angular:browser",
+          "builder": "@angular-devkit/build-angular:application",
           "options": {
-            "outputPath": "dist/ng-otp-input-repo",
+            "outputPath": {
+              "base": "dist/ng-otp-input-repo"
+            },
             "index": "src/index.html",
-            "main": "src/main.ts",
-            "polyfills": "src/polyfills.ts",
+            "polyfills": [
+              "src/polyfills.ts"
+            ],
             "tsConfig": "src/tsconfig.app.json",
             "assets": [
               "src/favicon.ico",
@@ -31,12 +34,11 @@
             ],
             "scripts": [],
             "aot": false,
-            "vendorChunk": true,
             "extractLicenses": false,
-            "buildOptimizer": false,
             "sourceMap": true,
             "optimization": false,
-            "namedChunks": true
+            "namedChunks": true,
+            "browser": "src/main.ts"
           },
           "configurations": {
             "production": {
@@ -52,8 +54,6 @@
               "namedChunks": false,
               "aot": true,
               "extractLicenses": true,
-              "vendorChunk": false,
-              "buildOptimizer": true,
               "budgets": [
                 {
                   "type": "initial",
@@ -68,18 +68,18 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "browserTarget": "ng-otp-input-repo:build"
+            "buildTarget": "ng-otp-input-repo:build"
           },
           "configurations": {
             "production": {
-              "browserTarget": "ng-otp-input-repo:build:production"
+              "buildTarget": "ng-otp-input-repo:build:production"
             }
           }
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "ng-otp-input-repo:build"
+            "buildTarget": "ng-otp-input-repo:build"
           }
         },
         "test": {
@@ -143,5 +143,8 @@
         }
       }
     }
+  },
+  "cli": {
+    "analytics": false
   }
 }

@@ -1,8 +1,17 @@
 <div class="ng-otp-input-wrapper wrapper {{config.containerClass}}" id="c_{{componentKey}}" *ngIf="otpForm?.controls"
-  [ngStyle]="config.containerStyles">
-  <input (paste)="handlePaste($event)" [pattern]="config.allowNumbersOnly ? '\\d*' : ''" [type]="inputType"  [placeholder]="config?.placeholder || ''"
-    [ngStyle]="config.inputStyles" 
-    class="otp-input {{config.inputClass}}" autocomplete="one-time-code" *ngFor="let item of otpForm?.controls | keys;let i=index"
-    [formControl]="otpForm.controls[item]" #inp [id]="getBoxId(i)" 
-    (keyup)="onKeyUp($event,i)" (input)="onInput($event)" (keydown)="onKeyDown($event,i)" >
+  [ngStyle]="config.containerStyles" tabindex="0" 
+  (focusin)="onFocusIn()" 
+  (focusout)="onFocusOut()">
+  <div class="n-o-c">
+    <ng-container *ngFor="let item of controlKeys;let i=index;let last=last">
+      <input (paste)="handlePaste($event)" [pattern]="config.allowNumbersOnly ? '\\d*' : ''" [type]="inputType"  [placeholder]="config?.placeholder || ''"
+      [ngStyle]="config.inputStyles" 
+      class="otp-input {{config.inputClass}}" autocomplete="one-time-code" 
+      [formControl]="otpForm.controls[item]" #inp [id]="getBoxId(i)" 
+      (keyup)="onKeyUp($event,i)" (input)="onInput($event,i)" (keydown)="onKeyDown($event,i)" [ngClass]="{'error-input': (config?.showError && formCtrl?.invalid && (formCtrl?.dirty || formCtrl?.touched))}">
+      <span *ngIf="config.separator && !last">
+        {{config.separator}}
+      </span>
+    </ng-container>
+  </div>  
 </div>
