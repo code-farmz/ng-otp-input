@@ -17,12 +17,11 @@ import { debounceTime, takeUntil } from 'rxjs/operators';
 import { ObjectUtil } from '../../utils/object-util';
 import { OnDestroy } from '@angular/core';
 @Component({
-  // tslint:disable-next-line: component-selector
-  selector: 'ng-otp-input, ngx-otp-input',
-  templateUrl: './ng-otp-input.component.html',
-  styleUrls: ['./ng-otp-input.component.scss'],
-  imports:[ReactiveFormsModule,NgIf,NgFor,NgStyle,NgClass],
-  standalone:true
+    // tslint:disable-next-line: component-selector
+    selector: 'ng-otp-input, ngx-otp-input',
+    templateUrl: './ng-otp-input.component.html',
+    styleUrls: ['./ng-otp-input.component.scss'],
+    imports: [ReactiveFormsModule, NgIf, NgFor, NgStyle, NgClass]
 })
 export class NgOtpInputComponent implements OnInit, AfterViewInit,OnDestroy {
   @Input() config: Config = { length: 4 };

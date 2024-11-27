@@ -3,6 +3,7 @@
   "compilerOptions": {
     "baseUrl": "./",
     "outDir": "./dist/out-tsc",
+    "esModuleInterop": true,
     "sourceMap": true,
     "skipLibCheck": true,
     "declaration": false,

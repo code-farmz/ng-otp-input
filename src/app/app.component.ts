@@ -7,8 +7,7 @@ import { NgOtpInputComponent, NgOtpInputConfig, NgOtpInputModule } from 'project
     selector: 'app-root',
     templateUrl: './app.component.html',
     styleUrls: ['./app.component.scss'],
-    standalone: true,
-    imports:[NgOtpInputModule,FormsModule,NgIf]
+    imports: [NgOtpInputModule, FormsModule, NgIf]
 })
 export class AppComponent {
   otp: string;
