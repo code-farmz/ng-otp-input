@@ -19,6 +19,10 @@
       <span class="s-t">Disable auto focus</span>
     </li>
     <li>
+      <input type="checkbox" name="is-disabled" id="is-disabled" (change)="toggleDisable()">
+      <span class="s-t">Disabled</span>
+    </li>
+    <li>
       <span class="s-t">Number of inputs</span>
       <input type="number" name="input-length" class="f-c" [(ngModel)]="config.length" min="1" max="10"
         (ngModelChange)="onConfigChange()">
@@ -41,14 +45,11 @@
     </li>
     <li>
       <span class="s-t">Update value to</span>
-      <input type="text" #valInput name="input-update-val" placeholder="Focus out to change" (change)="setVal(valInput.value)" class="f-c" min="1" max="10">
+      <input type="text" #valInput name="input-update-val" placeholder="Focus out to change" (change)="setVal(valInput.value)" class="f-c" min="1" [max]="config.length">
     <br>
     <span class="s-t">Focus first after update</span>
     <input type="checkbox" name="focus-first-on-update" id="focus-first-on-update" [(ngModel)]="focusToFirstElementAfterValueUpdate"
         (change)="onConfigChange()">
-    </li>
-    <li>
-      <button class="btn" (click)="toggleDisable()">Toogle Disable</button>
     </li>
   </ul>
 </div>
@@ -57,12 +58,14 @@
     <div>
       <div class="card">
         <p class="a-o-i">Enter verification code</p>
-        <ngx-otp-input  (onInputChange)="onOtpChange($event)" *ngIf="showOtpComponent" [config]="config"></ngx-otp-input>
+        <form [formGroup]="otpForm">
+          <ngx-otp-input  [formControl]="controls?.otp"  *ngIf="showOtpComponent" [config]="config"/>
+        </form>
         <span  class="o-t-p">
-          <ng-container *ngIf="otp">
-            Entered otp :-{{otp}}
+          <ng-container *ngIf="controls?.otp?.value">
+            Entered otp :-{{controls?.otp?.value}}
           </ng-container>
-          </span>
+        </span>
       </div>
     </div>
   </div>
