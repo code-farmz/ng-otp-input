@@ -19,7 +19,7 @@ jobs:
         node-version: 22  # Specify your project's Node.js version
 
     - name: Install dependencies
-      run: npm install
+      run: npm install --force
 
     - name: Build the project
       run: npm run build
