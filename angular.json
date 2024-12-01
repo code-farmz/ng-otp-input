@@ -54,6 +54,7 @@
               "namedChunks": false,
               "aot": true,
               "extractLicenses": true,
+              "baseHref": "/ng-otp-input/",
               "budgets": [
                 {
                   "type": "initial",
