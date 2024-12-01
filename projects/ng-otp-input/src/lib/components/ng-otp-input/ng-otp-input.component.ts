@@ -164,6 +164,8 @@ export class NgOtpInputComponent implements OnInit, AfterViewInit,OnDestroy,Cont
     }
     if (this.ifValidKeyCode($event)) {
         $event.target.value=$event.key;
+        let ctrlName=this.getControlName(inputIdx);
+        this.otpForm.controls[ctrlName]?.setValue($event.key);
         $event.preventDefault(); 
         this.setSelected(nextInputId);
         this.rebuildValue();
@@ -234,6 +236,9 @@ export class NgOtpInputComponent implements OnInit, AfterViewInit,OnDestroy,Cont
 
  private ifValidKeyCode(event) {
     const inp = event.key;
+    if(this.config?.allowNumbersOnly){
+      return this.validateNumber(inp);
+    }
     const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
     return (
       isMobile ||
