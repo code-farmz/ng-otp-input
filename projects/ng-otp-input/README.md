@@ -35,7 +35,7 @@ npm install --save ng-otp-input@1.8.1
 
 - Requires Angular 16 or above.
 - Emits `null` instead of an empty string if no value is supplied.
-- Fully supports **Reactive Forms** (`formControl` and `ngModel` are supported from v2.0.3 onwards).
+- Fully supports **Reactive Forms** (`formControl` and `ngModel` are supported from v2.0.4 onwards).
 - Deprecated the custom `formCtrl` input property. Use `formControl` instead.
 
 ---
@@ -76,7 +76,7 @@ export class YourComponent {}
 <!-- With Event Binding -->
 <ng-otp-input (onInputChange)="onOtpChange($event)" [config]="{ length: 5 }"></ng-otp-input>
 
-<!-- Using Reactive FormControl (v2.0.3 and above) -->
+<!-- Using Reactive FormControl (v2.0.4 and above) -->
 <ng-otp-input [formControl]="yourFormControl" [config]="{ length: 5 }"></ng-otp-input>
 ```
 
@@ -119,7 +119,7 @@ export class YourComponent {}
 
 ### Updating Component Value
 
-- Use `formControl` or `ngModel` (v2.0.3 and above) for updates.
+- Use `formControl` or `ngModel` (v2.0.4 and above) for updates.
 - For earlier versions, use `setValue`:
 
 ```typescript
@@ -134,7 +134,7 @@ updateOtpValue() {
 
 ### Disabling Inputs
 
-- Use the `disabled` property or set the `FormControl` to a disabled state (v2.0.3+).
+- Use the `disabled` property or set the `FormControl` to a disabled state (v2.0.4+).
 - For earlier versions, use `disable` method:
 
 ```typescript

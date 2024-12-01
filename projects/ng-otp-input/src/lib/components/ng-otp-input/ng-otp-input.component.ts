@@ -163,10 +163,10 @@ export class NgOtpInputComponent implements OnInit, AfterViewInit,OnDestroy,Cont
       return;
     }
     if (this.ifValidKeyCode($event)) {
-      setTimeout(() => {
+        $event.target.value=$event.key;
+        $event.preventDefault(); 
         this.setSelected(nextInputId);
-       this.rebuildValue();
-      }, 0);
+        this.rebuildValue();
     }
   }
   onInput($event,inputIdx){
