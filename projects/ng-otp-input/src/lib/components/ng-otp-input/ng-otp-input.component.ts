@@ -5,15 +5,13 @@ import {
   Output,
   AfterViewInit,
   Inject,
-  HostBinding,
-  HostListener
-} from '@angular/core';
-import { FormGroup, FormControl, ReactiveFormsModule } from '@angular/forms';
+  forwardRef} from '@angular/core';
+import { FormGroup, FormControl, ReactiveFormsModule, NG_VALUE_ACCESSOR, ControlValueAccessor } from '@angular/forms';
 import { Config } from '../../models/config';
 import { KeyboardUtil } from '../../utils/keyboard-util';
 import { DOCUMENT, NgClass, NgFor, NgIf, NgStyle } from '@angular/common';
 import { Subject } from 'rxjs';
-import { debounceTime, takeUntil } from 'rxjs/operators';
+import { takeUntil } from 'rxjs/operators';
 import { ObjectUtil } from '../../utils/object-util';
 import { OnDestroy } from '@angular/core';
 @Component({
@@ -21,18 +19,30 @@ import { OnDestroy } from '@angular/core';
     selector: 'ng-otp-input, ngx-otp-input',
     templateUrl: './ng-otp-input.component.html',
     styleUrls: ['./ng-otp-input.component.scss'],
-    imports: [ReactiveFormsModule, NgIf, NgFor, NgStyle, NgClass]
+    imports: [ReactiveFormsModule, NgIf, NgFor, NgStyle, NgClass],
+    providers: [
+      {
+        provide: NG_VALUE_ACCESSOR,
+        useExisting: forwardRef(() => NgOtpInputComponent),
+        multi: true,
+      },
+    ]
 })
-export class NgOtpInputComponent implements OnInit, AfterViewInit,OnDestroy {
+export class NgOtpInputComponent implements OnInit, AfterViewInit,OnDestroy,ControlValueAccessor  {
   @Input() config: Config = { length: 4 };
-  @Output() onInputChange = new Subject<string>();
+  /**
+   * @deprecated formCtrl is deprecated and will be removed soon. Use `FormControl` instead.
+   */
   @Input() formCtrl:FormControl;
+  @Input() set disabled(isDisabled:boolean){
+    this.setDisabledState(isDisabled);
+  }
   @Output() onBlur = new Subject<void>();
+  @Output() onInputChange = new Subject<string>();
   otpForm: FormGroup;
   currentVal:string;
   inputControls: FormControl[] = new Array(this.config.length);
-  componentKey =
-    Math.random()
+  componentKey =  Math.random()
       .toString(36)
       .substring(2) + new Date().getTime().toString(36);
   get inputType(){
@@ -45,6 +55,10 @@ export class NgOtpInputComponent implements OnInit, AfterViewInit,OnDestroy {
   get controlKeys(){ return ObjectUtil.keys(this.otpForm?.controls)};
   private destroy$ = new Subject<void>();
   private activeFocusCount = 0;
+  private onChange: (value: any) => void = () => {};
+  private onTouched: () => void = () => {};
+  private _isDisabled: boolean = false; 
+
   constructor(@Inject(DOCUMENT) private document: Document) {}
 
   ngOnInit() {
@@ -65,8 +79,33 @@ export class NgOtpInputComponent implements OnInit, AfterViewInit,OnDestroy {
       });
     });
   }
+  setDisabledState(isDisabled: boolean): void {
+    this._isDisabled = isDisabled; // Update local state
+    if (this.otpForm) {
+      if (isDisabled) {
+        this.otpForm.disable({ emitEvent: false }); // Disable form group
+      } else {
+        this.otpForm.enable({ emitEvent: false }); // Enable form group
+      }
+    }
+  }
+  writeValue(value: string): void {
+    this.currentVal = value || null;
+    if (this.otpForm && this.currentVal) {
+      this.setValue(this.currentVal);
+    }
+  }
+
+  registerOnChange(fn: any): void {
+    this.onChange = fn;
+  }
+
+  registerOnTouched(fn: any): void {
+    this.onTouched = fn;
+  }
 
   onFocusIn() {
+    this.onTouched(); 
     this.activeFocusCount++;
   }
 
@@ -74,6 +113,7 @@ export class NgOtpInputComponent implements OnInit, AfterViewInit,OnDestroy {
     setTimeout(() => {
       this.activeFocusCount--;
       if (this.activeFocusCount === 0) {
+        this.onTouched(); 
         this.onBlur.next();
       }
     }, 0);
@@ -225,14 +265,17 @@ export class NgOtpInputComponent implements OnInit, AfterViewInit,OnDestroy {
           }
      });
      if (!this.config.disableAutoFocus) {
-      const containerItem = this.document.getElementById(`c_${this.componentKey}`);
-      var indexOfElementToFocus = value.length < this.config.length ? value.length : (this.config.length - 1);
-      let ele : any = containerItem.getElementsByClassName('otp-input')[indexOfElementToFocus];
-      if (ele && ele.focus) {
-        setTimeout(() => {
-          ele.focus();
-        }, 1);
-      }
+      setTimeout(() => {
+        const containerItem = this.document.getElementById(`c_${this.componentKey}`);
+        var indexOfElementToFocus = value.length < this.config.length ? value.length : (this.config.length - 1);
+        let ele : any = containerItem.getElementsByClassName('otp-input')[indexOfElementToFocus];
+        if (ele && ele.focus) {
+          setTimeout(() => {
+            ele.focus();
+          }, 1);
+        }
+      }, 0);
+    
      }
      this.rebuildValue();
   }
@@ -264,12 +307,13 @@ private rebuildValue() {
       }
     });
     if(this.currentVal != val){
+    this.currentVal=val;
+    this.onChange(val); 
       if(this.formCtrl?.setValue){
         this.formCtrl.setValue(val);
       }
       this.onInputChange.next(val);
     }
-    this.currentVal=val;
   }
   
   
