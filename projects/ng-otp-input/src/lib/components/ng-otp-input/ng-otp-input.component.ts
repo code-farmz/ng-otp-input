@@ -162,14 +162,7 @@ export class NgOtpInputComponent implements OnInit, AfterViewInit,OnDestroy,Cont
       this.rebuildValue();
       return;
     }
-    if (this.ifValidKeyCode($event)) {
-        $event.target.value=$event.key;
-        let ctrlName=this.getControlName(inputIdx);
-        this.otpForm.controls[ctrlName]?.setValue($event.key);
-        $event.preventDefault(); 
-        this.setSelected(nextInputId);
-        this.rebuildValue();
-    }
+    
   }
   onInput($event,inputIdx){
     let newVal=this.currentVal ? `${this.currentVal}${$event.target.value}` : $event.target.value;
@@ -179,6 +172,16 @@ export class NgOtpInputComponent implements OnInit, AfterViewInit,OnDestroy,Cont
       $event.preventDefault();
       this.clearInput(null,inputIdx);
       return;
+    }
+    if (this.ifValidKeyCode(null,$event.target.value)) {
+      const nextInputId = this.getBoxId(inputIdx + 1);
+      this.setSelected(nextInputId);
+      this.rebuildValue();
+    }else{
+      $event.target.value=null;
+      let ctrlName=this.getControlName(inputIdx);
+      this.otpForm.controls[ctrlName]?.setValue(null);
+      this.rebuildValue();
     }
   }
   
@@ -197,10 +200,6 @@ export class NgOtpInputComponent implements OnInit, AfterViewInit,OnDestroy,Cont
     if (KeyboardUtil.ifLeftArrow($event)) {
       $event.preventDefault();
       this.setSelected(prevInputId);
-      return;
-    }
-    
-    if (!$event.target.value) {
       return;
     }
   }
@@ -234,8 +233,8 @@ export class NgOtpInputComponent implements OnInit, AfterViewInit,OnDestroy,Cont
     }
   }
 
- private ifValidKeyCode(event) {
-    const inp = event.key;
+ private ifValidKeyCode(event,val?) {
+    const inp =val??event.key;
     if(this.config?.allowNumbersOnly){
       return this.validateNumber(inp);
     }
