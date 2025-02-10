@@ -90,10 +90,8 @@ export class NgOtpInputComponent implements OnInit, AfterViewInit,OnDestroy,Cont
     }
   }
   writeValue(value: string): void {
-    this.currentVal = value || null;
-    if (this.otpForm && this.currentVal) {
-      this.setValue(this.currentVal);
-    }
+    this.currentVal = !this.hasVal(value) ? null : value;
+    this.setValue(this.currentVal);
   }
 
   registerOnChange(fn: any): void {
@@ -164,8 +162,11 @@ export class NgOtpInputComponent implements OnInit, AfterViewInit,OnDestroy,Cont
     }
     
   }
+  hasVal(val){
+    return val != null && val != undefined && (!val?.trim || val.trim() != '');
+  }
   onInput($event,inputIdx){
-    let newVal=this.currentVal ? `${this.currentVal}${$event.target.value}` : $event.target.value;
+    let newVal=this.hasVal(this.currentVal) ? `${this.currentVal}${$event.target.value}` : $event.target.value;
     if(this.config.allowNumbersOnly && !this.validateNumber(newVal)){
       $event.target.value=null;
       $event.stopPropagation();
@@ -257,8 +258,8 @@ export class NgOtpInputComponent implements OnInit, AfterViewInit,OnDestroy,Cont
     if (this.config.allowNumbersOnly && isNaN(value)) {
         return;
     }
-    this.otpForm.reset();
-     if (!value) {
+    this.otpForm?.reset();
+     if (!this.hasVal(value)) {
        this.rebuildValue();
        return;
      }

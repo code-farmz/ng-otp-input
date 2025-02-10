@@ -32,7 +32,6 @@ export class AppComponent {
 
   }
   onOtpChange(otp) {
-    console.log(otp);
     this.otp = otp;
   }
 
