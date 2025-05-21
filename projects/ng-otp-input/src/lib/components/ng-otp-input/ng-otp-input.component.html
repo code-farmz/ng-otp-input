@@ -8,7 +8,7 @@
       [ngStyle]="config.inputStyles" 
       class="otp-input {{config.inputClass}}" autocomplete="one-time-code" 
       [formControl]="otpForm.controls[item]" #inp [id]="getBoxId(i)" 
-      (keyup)="onKeyUp($event,i)" (input)="onInput($event,i)" (keydown)="onKeyDown($event,i)" [ngClass]="{'error-input': (config?.showError && formCtrl?.invalid && (formCtrl?.dirty || formCtrl?.touched))}">
+      (keyup)="onKeyUp($event,i)" (input)="onInput($event,i)" (keydown)="onKeyDown($event,i)" [ngClass]="{'error-input': (config?.showError && formControl?.invalid && (formControl?.dirty || formControl?.touched))}">
       <span *ngIf="config.separator && !last">
         {{config.separator}}
       </span>

@@ -1,6 +1,6 @@
 import { NgIf } from '@angular/common';
 import { Component, ViewChild } from '@angular/core';
-import { FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { NgOtpInputComponent, NgOtpInputConfig } from 'ng-otp-input';
 
 @Component({
@@ -13,7 +13,7 @@ export class AppComponent {
   otpForm:FormGroup<{
     otp:FormControl<string>
   }>=new FormGroup({
-    otp:new FormControl(null)
+    otp:new FormControl(null,[Validators.required])
   });
   otp: string;
   showOtpComponent = true;

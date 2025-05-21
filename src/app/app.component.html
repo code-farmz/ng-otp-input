@@ -23,6 +23,11 @@
       <span class="s-t">Disabled</span>
     </li>
     <li>
+      <input type="checkbox" name="show-error" id="show-error" [(ngModel)]="config.showError"
+        (change)="onConfigChange()">
+      <span class="s-t">Show Error</span>
+    </li>
+    <li>
       <span class="s-t">Number of inputs</span>
       <input type="number" name="input-length" class="f-c" [(ngModel)]="config.length" min="1" max="10"
         (ngModelChange)="onConfigChange()">
