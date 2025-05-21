@@ -142,7 +142,15 @@ export class NgOtpInputComponent implements OnInit, AfterViewInit, OnDestroy, Co
   onKeyDown($event, inputIdx) {
     const prevInputId = this.getBoxId(inputIdx - 1);
     const currentInputId = this.getBoxId(inputIdx);
-    const nextInputId = this.getBoxId(inputIdx + 1);
+    if (KeyboardUtil.ifKey($event, 'Enter')) {
+      let inp = this.document.getElementById(currentInputId);
+      const form = inp?.closest('form');
+      if (form) {
+        $event.preventDefault();
+        form.dispatchEvent(new Event('submit'));
+        return;
+      }
+    }
     if (KeyboardUtil.ifSpacebar($event)) {
       $event.preventDefault();
       return false;
