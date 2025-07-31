@@ -147,7 +147,8 @@ export class NgOtpInputComponent implements OnInit, AfterViewInit, OnDestroy, Co
       const form = inp?.closest('form');
       if (form) {
         $event.preventDefault();
-        form.dispatchEvent(new Event('submit'));
+        const submitEvent = new Event('submit', { bubbles: true, cancelable: true });
+        form.dispatchEvent(submitEvent);
         return;
       }
     }
