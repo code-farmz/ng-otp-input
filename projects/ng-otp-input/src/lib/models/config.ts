@@ -4,6 +4,7 @@ export class Config {
   length: number;
   allowNumbersOnly?: boolean;
   inputClass?: string;
+  inputMode?: string;
   containerClass?: string;
   isPasswordInput?: boolean;
   disableAutoFocus?: boolean;

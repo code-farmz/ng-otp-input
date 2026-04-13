@@ -112,6 +112,7 @@ export class YourComponent {}
 | `placeholder`      | string  | No       | --         | Sets a placeholder for each input box.                                                      |
 | `separator`        | char    | No       | --         | Inserts a separator character between input boxes.                                          |
 | `showError`        | boolean | No       | `false`    | Highlights inputs with red borders if `formControl` is invalid, dirty, or touched.          |
+| `inputMode`        | string  | No       | `text`    | Numeric if allow number only is true otherwise supplied value or text           |
 
 ---
 

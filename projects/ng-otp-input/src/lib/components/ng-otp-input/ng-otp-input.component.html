@@ -4,7 +4,9 @@
   (focusout)="onFocusOut()">
   <div class="n-o-c">
     <ng-container *ngFor="let item of controlKeys;let i=index;let last=last">
-      <input (paste)="handlePaste($event)" [pattern]="config.allowNumbersOnly ? '\\d*' : ''" [type]="inputType"  [placeholder]="config?.placeholder || ''"
+      <input (paste)="handlePaste($event)" [pattern]="config.allowNumbersOnly ? '\\d*' : ''" 
+      [type]="inputType"  [placeholder]="config?.placeholder || ''"
+      [attr.inputmode]="config.allowNumbersOnly ? 'numeric' : (config.inputMode ||'text')"
       [ngStyle]="config.inputStyles" 
       class="otp-input {{config.inputClass}}" autocomplete="one-time-code" 
       [formControl]="otpForm.controls[item]" #inp [id]="getBoxId(i)" 

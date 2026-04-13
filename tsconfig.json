@@ -1,16 +1,18 @@
 {
   "compileOnSave": false,
   "compilerOptions": {
-    "baseUrl": "./",
     "outDir": "./dist/out-tsc",
     "esModuleInterop": true,
     "sourceMap": true,
     "skipLibCheck": true,
     "declaration": false,
-    "module": "es2015",
-    "moduleResolution": "node",
+    "module": "esnext",
+    "moduleResolution": "bundler",
     "experimentalDecorators": true,
     "target": "ES2022",
+    "strictPropertyInitialization": false,
+    "strictNullChecks": false,
+    "noImplicitAny": false,
     "typeRoots": [
       "node_modules/@types"
     ],
@@ -20,10 +22,10 @@
     ],
     "paths": {
       "l-ng-otp-input": [
-        "dist/l-ng-otp-input-repo"
+        "./dist/l-ng-otp-input-repo"
       ],
       "l-ng-otp-input/*": [
-        "dist/l-ng-otp-input-repo/*"
+        "./dist/l-ng-otp-input-repo/*"
       ]
     },
     "useDefineForClassFields": false
